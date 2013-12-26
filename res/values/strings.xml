@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Titres des activités -->
+
+    <string name="title_activity_treasure_hunt_creation">TreasureHuntCreation</string>
+    <string name="title_activity_treasure_hunt_utility_creation">TreasureHuntUtilityCreation</string>
+    <string name="title_activity_treasure_hunt_participation">TreasureHuntParticipation</string>
+    <string name="title_activity_treasure_hunt_starting">TreasureHuntStarting</string>
+    <string name="title_activity_treasure_hunt_to_participate">TreasureHuntToParticipate</string>
+    <string name="title_activity_permission_gps">PermissionGps</string>
+
+    <!-- Strings liées aux boutons, EditText, etc... -->
+
+    <string name="app_name">TreasureHunt2</string>
+    <string name="action_settings">Settings</string>
+    <string name="welcome">Bienvenue sur TreasureHunt !</string>
+    <string name="create_hunt">Créer une chasse au trésor</string>
+    <string name="participate_hunt">Participer à une chasse au trésor</string>
+    <string name="title_creation_hunt">Création de votre chasse au trésor</string>
+    <string name="name_new_hunt">Nom de la chasse</string>
+    <string name="date_treasure_hunt">Date de la chasse au trésor</string>
+    <string name="add_treasure">Ajouter un nouveau trésor au parcours</string>
+    <string name="end_course">Finir le parcours</string>
+    <string name="current_position">Votre position actuelle</string>
+    <string name="name_of_hunt">Nom de la chasse à laquelle vous souhaitez participer</string>
+    <string name="clue">Indice</string>
+    <string name="clue_given">Affichage de l\'indice fourni par le créateur. . .</string>
+    <string name="validate_button_creation_hunt">Valider</string>
+
+</resources>

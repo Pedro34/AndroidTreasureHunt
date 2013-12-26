@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/add_treasure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="@string/add_treasure" />
+
+    <Button
+        android:id="@+id/end_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_treasure"
+        android:layout_marginTop="32dp"
+        android:text="@string/end_course" />
+
+    <TextView
+        android:id="@+id/current_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:text="@string/current_position" />
+
+    <EditText
+        android:id="@+id/textlong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_treasure"
+        android:layout_alignLeft="@+id/textlat"
+        android:layout_marginBottom="48dp"
+        android:background="#677179"
+        android:ems="10"
+        android:text="Longitude"
+        android:textColor="#E21313" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/textlat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_position"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:background="#677179"
+        android:ems="10"
+        android:text="Latitude"
+        android:textColor="#E21313" />
+
+</RelativeLayout>

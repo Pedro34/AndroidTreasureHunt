@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/clue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="104dp"
+        android:layout_marginTop="34dp"
+        android:text="@string/clue" />
+
+    <EditText
+        android:id="@+id/clue_given"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/clue"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="34dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/clue_given"
+        android:editable="false"
+        android:focusable="false" />
+
+</RelativeLayout>
