@@ -29,5 +29,6 @@
     <string name="validate_button_creation_hunt">Valider</string>
 	<string name="longitude">Longitude</string>
 	<string name="latitude">Latitude</string>
+	<string name="manage">Gérez vos chasses aux trésors</string>
 	
 </resources>

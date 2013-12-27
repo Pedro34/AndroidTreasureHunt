@@ -128,6 +128,11 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		}
 	}
 
+	public void endCourse(View v){
+		String lati=mTxtViewlat.getText().toString();
+		String longi=mTxtViewlong.getText().toString();
+	}
+	
 	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
