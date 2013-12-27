@@ -1,5 +1,7 @@
 package treasureHunt;
 
+import java.text.SimpleDateFormat;
+
 import com.example.treasurehunt2.R;
 import com.example.treasurehunt2.R.layout;
 import com.example.treasurehunt2.R.menu;
@@ -13,10 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class ActivityCreation extends Activity implements OnClickListener{
 	Button validate_hunt;
@@ -41,15 +40,34 @@ public class ActivityCreation extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		if(new_hunt.getText().length()!=0 && date_hunt.getText().toString().matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")) 
-		{
-			Intent intent;
-			intent = new Intent(this, ActivityUtilityCreation.class);		
-			startActivity(intent);
-		} else {
+		SimpleDateFormat ss = new SimpleDateFormat("dd/MM/yyyy");
+		String recup=null;
+		try{
+			recup=ss.format(date_hunt.getText().toString());
+			if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
+				Intent intent;
+				intent = new Intent(this, ActivityUtilityCreation.class);
+				intent.putExtra("nomChasse", new_hunt.getText());
+				intent.putExtra("numIndice", 1);
+				
+				startActivity(intent);
+			}else{
+				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+				localBuilder
+				.setMessage("Pour valider, il faut entrer le nom ainsi que la date de la chasse au trÃ©sor.")
+				.setCancelable(false)
+				.setNeutralButton("Ok",
+						new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+					}
+				}
+						);
+				localBuilder.create().show();
+			}
+		}finally{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
-			.setMessage("Pour valider, il faut entrer le nom ainsi que la date de la chasse au trésor.")
+			.setMessage("Pour valider, il faut entrer une date valide dans le format dd/MM/yyyy")
 			.setCancelable(false)
 			.setNeutralButton("Ok",
 					new DialogInterface.OnClickListener() {
