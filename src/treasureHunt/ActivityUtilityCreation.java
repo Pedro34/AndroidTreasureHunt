@@ -71,12 +71,12 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	@Override
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
-		//Lorsque la source (GSP ou r�seau GSM) est d�sactiv�
-		//...on affiche un Toast pour le signaler � l'utilisateur
+		//Lorsque la source (GSP ou réseau GSM) est désactivé
+		//...on affiche un Toast pour le signaler à l'utilisateur
 		Toast.makeText(this,
 				String.format("La source \"%s\" a été désactivé", provider),
 				Toast.LENGTH_LONG).show();
-		//... et on sp�cifie au service que l'on ne souhaite plus avoir de mise � jour
+		//... et on spécifie au service que l'on ne souhaite plus avoir de mise à jour
 		//TreasureHunt.myPosition.removeUpdates(this);
 		//... on stop le cercle de chargement
 		//setProgressBarIndeterminateVisibility(false);
@@ -112,7 +112,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
 			DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
 			
-			
+			numIndice++;
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder

@@ -6,8 +6,10 @@ import treasureHunt.model.Hunt;
 import treasureHunt.model.Treasure;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 public class DatabaseManager extends SQLiteOpenHelper{
 	private static DatabaseManager instance=null;
@@ -69,6 +71,11 @@ public class DatabaseManager extends SQLiteOpenHelper{
         onUpgrade(db, oldVersion, newVersion);
     }
 	
+	/**
+	 * 
+	 * @param db La BD à pour insérer
+	 * @param treasure L'objet complexe {@link Treasure} à insérer
+	 */
 	public void insertIntoTreasure(SQLiteDatabase db,Treasure treasure){
 		ContentValues values = new ContentValues();
 		values.put(TreasureEntry.COLUMN_NAME_TREASURE_NAME, treasure.getNomChasse());
@@ -76,6 +83,11 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		db.insert(TreasureEntry.TABLE_NAME, null, values);
 	}
 	
+	/**
+	 * 
+	 * @param db La BD à pour insérer
+	 * @param hunt L'objet complexe {@link Hunt} à insérer
+	 */
 	public void insertIntoHunt(SQLiteDatabase db,Hunt hunt){
 		ContentValues values=new ContentValues();
 		values.put(HuntEntry.COLUMN_NAME_HUNT_NAME, hunt.getNomChasse());
@@ -84,5 +96,25 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		values.put(HuntEntry.COLUMN_NAME_LONG,hunt.getLongitude());
 		values.put(HuntEntry.COLUMN_NAME_LAT, hunt.getLatitude());
 		db.insert(HuntEntry.TABLE_NAME, null, values);
+	}
+	
+	/**
+	 * 
+	 * @param db La BD à interroger
+	 * @param nom Le nom de la chasse à trouver
+	 * @return Vrai si le nom donné en paramètre n'existe pas en local
+	 * (cad sur le téléphone).Faux sinon
+	 */
+	public boolean treasureNameNotAlreadyExistLocally(SQLiteDatabase db,String nom){
+		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
+		String[] projection = {TreasureEntry.COLUMN_NAME_TREASURE_NAME};
+		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ";
+		String[] selectionArgs={nom};
+		
+		_QB.setTables(TreasureEntry.TABLE_NAME);
+		Cursor curseur=_QB.query(db,projection,selection,selectionArgs,null,null,null);
+		int rows=curseur.getCount();
+		curseur.close();
+		return rows==0;
 	}
 }

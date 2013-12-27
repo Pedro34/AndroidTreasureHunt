@@ -1,14 +1,9 @@
 package treasureHunt;
 
-import java.text.SimpleDateFormat;
-
 import treasureHunt.db.DatabaseManager;
 import treasureHunt.model.Treasure;
 
 import com.example.treasurehunt2.R;
-import com.example.treasurehunt2.R.layout;
-import com.example.treasurehunt2.R.menu;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +28,8 @@ public class ActivityCreation extends Activity implements OnClickListener{
 		validate_hunt.setOnClickListener(this);
 		new_hunt = (EditText)findViewById(R.id.name_choosen);
 		date_hunt = (EditText)findViewById(R.id.date_picker);
+		
+		DatabaseManager.getInstance(getApplicationContext());
 	}
 
 	@Override
@@ -45,16 +42,32 @@ public class ActivityCreation extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		String recup=date_hunt.getText().toString();
-		if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
-			Intent intent;
-			intent = new Intent(this, ActivityUtilityCreation.class);
-			intent.putExtra("nomChasse", new_hunt.getText());
-			intent.putExtra("numIndice", 1);
 
-			Treasure treasure=new Treasure(new_hunt.getText().toString(), recup);
-			SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
-			DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
-			startActivity(intent);
+		if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
+			SQLiteDatabase db=DatabaseManager.getInstance(null).getWritableDatabase();
+			if (DatabaseManager.getInstance(null).treasureNameNotAlreadyExistLocally(db, new_hunt.getText().toString())){
+
+				Intent intent;
+				intent = new Intent(this, ActivityUtilityCreation.class);
+				intent.putExtra("nomChasse", new_hunt.getText().toString());
+				intent.putExtra("numIndice", "1");
+
+				Treasure treasure=new Treasure(new_hunt.getText().toString(), recup);
+				DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
+				startActivity(intent);
+			}else{
+				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+				localBuilder
+				.setMessage("Désolé mais vous avez déjà créer une chasse au trésor avec ce même nom.")
+				.setCancelable(false)
+				.setNeutralButton("Ok",
+						new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+					}
+				}
+						);
+				localBuilder.create().show();
+			}
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
