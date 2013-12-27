@@ -84,6 +84,26 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	}
 	
 	/**
+	 * Permet de supprimer la chasse au trésor dans la table Treasure après l'export
+	 * @param db La BD à modifier
+	 * @param nom Le nom de la chasse au trésor à supprimer
+	 */
+	public void deleteAfterExportTreasure(SQLiteDatabase db,String nom){
+		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = '"+nom+"'";
+		db.delete(TreasureEntry.TABLE_NAME,selection,null);
+	}
+	
+	/**
+	 * Permet de supprimer la chasse au trésor dans la table Hunt après l'export
+	 * @param db La BD à modifier
+	 * @param nom Le nom de la chasse au trésor à supprimer
+	 */
+	public void deleteAfterExportHunt(SQLiteDatabase db,String nom){
+		String selection=HuntEntry.COLUMN_NAME_HUNT_NAME+" = '"+nom+"'";
+		db.delete(HuntEntry.TABLE_NAME,selection,null);
+	}
+	
+	/**
 	 * 
 	 * @param db La BD à pour insérer
 	 * @param hunt L'objet complexe {@link Hunt} à insérer

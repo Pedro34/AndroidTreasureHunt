@@ -131,6 +131,14 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	public void endCourse(View v){
 		String lati=mTxtViewlat.getText().toString();
 		String longi=mTxtViewlong.getText().toString();
+		
+		Hunt hunt=new Hunt(nomChasse,numIndice,Double.parseDouble(longi),Double.parseDouble(lati));
+		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
+		DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
+		//TODO export des données à effectuer
+		//Après l'export on enlève de la BD
+		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportTreasure(db, nomChasse);
+		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportHunt(db, nomChasse);
 	}
 	
 	@Override

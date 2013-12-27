@@ -12,6 +12,13 @@ public class Hunt {
 	public Hunt(){
 	}
 	
+	public Hunt(String nomChasse,int numIndice,double longitude,double latitude){
+		this.nomChasse=nomChasse;
+		this.numIndice=numIndice;
+		this.longitude=longitude;
+		this.latitude=latitude;
+	}
+	
 	public Hunt(String nomChasse,int numIndice,String indice,double longitude,double latitude){
 		this.nomChasse=nomChasse;
 		this.numIndice=numIndice;
