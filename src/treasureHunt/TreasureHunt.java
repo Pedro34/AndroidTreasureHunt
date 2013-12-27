@@ -1,17 +1,13 @@
 package treasureHunt;
 
 import com.example.treasurehunt2.R;
-import com.example.treasurehunt2.R.layout;
-import com.example.treasurehunt2.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class TreasureHunt extends Activity {
 	Button button_create;

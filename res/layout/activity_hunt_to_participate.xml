@@ -19,6 +19,17 @@
         android:layout_below="@+id/name_of_hunt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
+        android:inputType="text"
         android:ems="10" />
+
+    <Button
+        android:id="@+id/launch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_hunt_choosen"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:onClick="launch"
+        android:text="@string/launch" />
 
 </RelativeLayout>

@@ -5,7 +5,7 @@ import com.example.treasurehunt2.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.Button;
+import android.view.View;
 
 public class ActivityParticipation extends Activity {
 	
@@ -21,5 +21,9 @@ public class ActivityParticipation extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.treasure_hunt, menu);
 		return true;
+	}
+	
+	public void launch(View v){
+		
 	}
 }
