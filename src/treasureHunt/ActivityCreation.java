@@ -2,6 +2,9 @@ package treasureHunt;
 
 import java.text.SimpleDateFormat;
 
+import treasureHunt.db.DatabaseManager;
+import treasureHunt.model.Treasure;
+
 import com.example.treasurehunt2.R;
 import com.example.treasurehunt2.R.layout;
 import com.example.treasurehunt2.R.menu;
@@ -11,6 +14,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,34 +44,21 @@ public class ActivityCreation extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		SimpleDateFormat ss = new SimpleDateFormat("dd/MM/yyyy");
-		String recup=null;
-		try{
-			recup=ss.format(date_hunt.getText().toString());
-			if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
-				Intent intent;
-				intent = new Intent(this, ActivityUtilityCreation.class);
-				intent.putExtra("nomChasse", new_hunt.getText());
-				intent.putExtra("numIndice", 1);
-				
-				startActivity(intent);
-			}else{
-				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
-				localBuilder
-				.setMessage("Pour valider, il faut entrer le nom ainsi que la date de la chasse au trésor.")
-				.setCancelable(false)
-				.setNeutralButton("Ok",
-						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-					}
-				}
-						);
-				localBuilder.create().show();
-			}
-		}finally{
+		String recup=date_hunt.getText().toString();
+		if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
+			Intent intent;
+			intent = new Intent(this, ActivityUtilityCreation.class);
+			intent.putExtra("nomChasse", new_hunt.getText());
+			intent.putExtra("numIndice", 1);
+
+			Treasure treasure=new Treasure(new_hunt.getText().toString(), recup);
+			SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
+			DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
+			startActivity(intent);
+		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
-			.setMessage("Pour valider, il faut entrer une date valide dans le format dd/MM/yyyy")
+			.setMessage("Pour valider, il faut entrer le nom ainsi que la date de la chasse au trésor.")
 			.setCancelable(false)
 			.setNeutralButton("Ok",
 					new DialogInterface.OnClickListener() {
@@ -77,11 +68,6 @@ public class ActivityCreation extends Activity implements OnClickListener{
 					);
 			localBuilder.create().show();
 		}
-	}
-	
-	@Override
-	public void onBackPressed(){
-		
 	}
 
 }

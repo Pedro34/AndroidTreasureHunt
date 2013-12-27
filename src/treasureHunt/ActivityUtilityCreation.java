@@ -1,5 +1,8 @@
 package treasureHunt;
 
+import treasureHunt.db.DatabaseManager;
+import treasureHunt.model.Hunt;
+
 import com.example.treasurehunt2.R;
 
 import android.app.Activity;
@@ -7,26 +10,37 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class ActivityUtilityCreation extends Activity implements LocationListener {
 
-	public  LocationManager locationManager;
-	public  TextView mTxtViewlat;
-	public  TextView mTxtViewlong;
-	public  Location myPosition = null;
+	public LocationManager locationManager;
+	public EditText mTxtViewlat;
+	public EditText mTxtViewlong;
+	public EditText indice;
+	public Location myPosition = null;
+	public Intent creationRecup;
+	public String nomChasse;
+	public int numIndice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_creation_treasure_hunt_course);
+		creationRecup=getIntent();
+
+		nomChasse=creationRecup.getStringExtra("nomChasse");
+		numIndice=Integer.parseInt(creationRecup.getStringExtra("numIndice"));
+
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			Intent localIntent = new Intent(this, PermissionGps.class);
@@ -34,9 +48,9 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			startActivity(localIntent);
 		}
 		currentPosition();
-		mTxtViewlat = (TextView) findViewById(R.id.textlat);
-		mTxtViewlong = (TextView) findViewById(R.id.textlong);
-		//TODO Mise en place de la BDD ou pas
+		mTxtViewlat = (EditText) findViewById(R.id.textlat);
+		mTxtViewlong = (EditText) findViewById(R.id.textlong);
+
 	}
 
 	@Override
@@ -49,8 +63,8 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		mTxtViewlat.setText(" "+location.getLatitude());
-		mTxtViewlong.setText(" "+location.getLongitude());
+		mTxtViewlat.setText(Double.toString(location.getLatitude()));
+		mTxtViewlong.setText(Double.toString(location.getLongitude()));
 
 	}
 
@@ -60,8 +74,8 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		//Lorsque la source (GSP ou r�seau GSM) est d�sactiv�
 		//...on affiche un Toast pour le signaler � l'utilisateur
 		Toast.makeText(this,
-						String.format("La source \"%s\" a été désactivé", provider),
-						Toast.LENGTH_LONG).show();
+				String.format("La source \"%s\" a été désactivé", provider),
+				Toast.LENGTH_LONG).show();
 		//... et on sp�cifie au service que l'on ne souhaite plus avoir de mise � jour
 		//TreasureHunt.myPosition.removeUpdates(this);
 		//... on stop le cercle de chargement
@@ -83,8 +97,35 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		AlertDialog dialog = builder.create();
 		dialog.show();
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
-		mTxtViewlat = (TextView) findViewById(R.id.textlat);
-		mTxtViewlong = (TextView) findViewById(R.id.textlong);
+		mTxtViewlat = (EditText) findViewById(R.id.textlat);
+		mTxtViewlong = (EditText) findViewById(R.id.textlong);
+	}
+
+	public void addTreasure(View v){
+
+		indice=(EditText)findViewById(R.id.clue);
+		if (indice.getText().length()!=0){
+			String lati=mTxtViewlat.getText().toString();
+			String longi=mTxtViewlong.getText().toString();
+
+			Hunt hunt=new Hunt(nomChasse,numIndice,indice.getText().toString(),Double.parseDouble(longi),Double.parseDouble(lati));
+			SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
+			DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
+			
+			
+		}else{
+			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+			localBuilder
+			.setMessage("Pour valider, il faut entrer un indice.")
+			.setCancelable(false)
+			.setNeutralButton("Ok",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+				}
+			}
+					);
+			localBuilder.create().show();
+		}
 	}
 
 	@Override
@@ -96,6 +137,11 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onBackPressed(){
 
 	}
 }

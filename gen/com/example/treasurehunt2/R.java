@@ -68,6 +68,8 @@ public final class R {
         public static final int current_position=0x7f050010;
         public static final int date_treasure_hunt=0x7f05000d;
         public static final int end_course=0x7f05000f;
+        public static final int latitude=0x7f050016;
+        public static final int longitude=0x7f050015;
         public static final int name_new_hunt=0x7f05000c;
         public static final int name_of_hunt=0x7f050011;
         public static final int participate_hunt=0x7f05000a;

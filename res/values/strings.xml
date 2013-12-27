@@ -27,5 +27,7 @@
     <string name="clue">Indice</string>
     <string name="clue_given">Affichage de l\'indice fourni par le créateur. . .</string>
     <string name="validate_button_creation_hunt">Valider</string>
-
+	<string name="longitude">Longitude</string>
+	<string name="latitude">Latitude</string>
+	
 </resources>

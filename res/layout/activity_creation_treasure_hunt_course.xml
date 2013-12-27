@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:text="@string/add_treasure" />
+        android:text="@string/add_treasure" 
+        android:onClick="addTreasure" />
 
     <Button
         android:id="@+id/end_course"
@@ -19,7 +20,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/add_treasure"
         android:layout_marginTop="32dp"
-        android:text="@string/end_course" />
+        android:text="@string/end_course" 
+        android:onClick="endCourse" />
 
     <TextView
         android:id="@+id/current_position"
@@ -39,9 +41,9 @@
         android:layout_marginBottom="48dp"
         android:background="#677179"
         android:ems="10"
-        android:text="Longitude"
-        android:textColor="#E21313" >
-
+        android:text="@string/longitude"
+        android:textColor="#E21313" 
+        android:inputType="numberDecimal">
         <requestFocus />
     </EditText>
 
@@ -54,7 +56,21 @@
         android:layout_marginTop="36dp"
         android:background="#677179"
         android:ems="10"
-        android:text="Latitude"
-        android:textColor="#E21313" />
+        android:text="@string/latitude"
+        android:textColor="#E21313"
+        android:inputType="numberDecimal" />
+    
+    <EditText 
+        android:id="@+id/clue"
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textlong"
+        android:layout_centerHorizontal="true"
+         android:layout_marginTop="36dp"
+        android:background="#677179"
+        android:ems="10"
+        android:text="@string/clue"
+        android:textColor="#E21313"
+        android:inputType="text" />
 
 </RelativeLayout>
