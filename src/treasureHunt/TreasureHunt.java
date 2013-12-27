@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class TreasureHunt extends Activity {
+	
 	Button button_create;
 	Button button_participate;
 	Intent intent;
@@ -20,7 +21,6 @@ public class TreasureHunt extends Activity {
 		setContentView(R.layout.activity_treasure_hunt);
 		button_create = (Button)findViewById(R.id.create_hunt);
 		button_participate = (Button)findViewById(R.id.participate_hunt);
-		//TODO Mise en place de la BDD ou pas
 	}
 
 	@Override

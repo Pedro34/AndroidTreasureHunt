@@ -17,9 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class ActivityCreation extends Activity implements OnClickListener{
+	
 	Button validate_hunt;
 	EditText new_hunt;
 	EditText date_hunt;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
