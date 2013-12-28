@@ -29,6 +29,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	public Location myPosition = null;
 	public Intent creationRecup;
 	public String nomChasse;
+	public String dateOragnisation;
 	public int numIndice;
 
 	@Override
@@ -39,7 +40,8 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 
 		nomChasse=creationRecup.getStringExtra("nomChasse");
 		numIndice=Integer.parseInt(creationRecup.getStringExtra("numIndice"));
-
+		dateOragnisation=creationRecup.getStringExtra("date");
+		
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			Intent localIntent = new Intent(this, PermissionGps.class);
