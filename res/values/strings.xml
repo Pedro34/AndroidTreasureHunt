@@ -9,7 +9,8 @@
     <string name="title_activity_treasure_hunt_starting">TreasureHuntStarting</string>
     <string name="title_activity_treasure_hunt_to_participate">TreasureHuntToParticipate</string>
     <string name="title_activity_permission_gps">PermissionGps</string>
-
+	<string name="title_activity_manage_hunts">Gérez vos chasses aux trésors</string>
+	
     <!-- Strings liées aux boutons, EditText, etc... -->
 
     <string name="app_name">TreasureHunt2</string>
@@ -31,5 +32,11 @@
 	<string name="latitude">Latitude</string>
 	<string name="launch">Lancez la partie!</string>
 	<string name="manage">Gérez vos chasses aux trésors</string>
+	
+	<!-- Strings pour la BD -->
+	<!-- Table Treasure -->
+	<string name="nomChasse">Nom de la chasse aux trésors</string>
+	<string name="dateOrganisation">Date d\'organisation de la chasse</string>
+	<!-- Table Hunt -->
 	
 </resources>

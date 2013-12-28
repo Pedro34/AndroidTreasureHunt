@@ -23,6 +23,9 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	private static final String DOUBLE_TYPE =" DOUBLE";
 	private static final String COMMA_SEP = ",";
 	
+	public static final String DESC = " DESC";
+    public static final String ASC = " ASC";
+    
     private static final String SQL_CREATE_TREASURE_TABLE="CREATE TABLE "+TreasureEntry.TABLE_NAME +
     		" ("+
     		TreasureEntry._ID+" INTEGER PRIMARY KEY,"+
@@ -136,5 +139,13 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		int rows=curseur.getCount();
 		curseur.close();
 		return rows==0;
+	}
+	
+	public Cursor treasures(SQLiteDatabase db){
+		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
+		_QB.setTables(TreasureEntry.TABLE_NAME);
+		String[] projection = {TreasureEntry.FULL_ID,TreasureEntry.COLUMN_NAME_TREASURE_NAME,TreasureEntry.COLUMN_NAME_TREASURE_DATE};
+		String sortOrder =TreasureEntry.COLUMN_NAME_TREASURE_NAME+ASC;
+		return _QB.query(db,projection,null,null,null,null,sortOrder);
 	}
 }
