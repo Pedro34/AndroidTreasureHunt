@@ -1,9 +1,11 @@
 package treasureHunt;
 
+import treasureHunt.db.DatabaseExternalManager;
 import treasureHunt.db.DatabaseManager;
 import treasureHunt.model.Treasure;
 
 import com.example.treasurehunt2.R;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -49,15 +51,30 @@ public class ActivityCreation extends Activity implements OnClickListener{
 			SQLiteDatabase db=DatabaseManager.getInstance(null).getWritableDatabase();
 			if (DatabaseManager.getInstance(null).treasureNameNotAlreadyExistLocally(db, new_hunt.getText().toString())){
 
-				Intent intent;
-				intent = new Intent(this, ActivityUtilityCreation.class);
-				intent.putExtra("nomChasse", new_hunt.getText().toString());
-				intent.putExtra("numIndice", "1");
-				intent.putExtra("date", recup);
-				
-				Treasure treasure=new Treasure(new_hunt.getText().toString(), recup);
-				DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
-				startActivity(intent);
+				DatabaseExternalManager dem=new DatabaseExternalManager();
+				if (!dem.treasureNameAlreadyExist(new_hunt.getText().toString())){
+					Intent intent;
+					intent = new Intent(this, ActivityUtilityCreation.class);
+					intent.putExtra("nomChasse", new_hunt.getText().toString());
+					intent.putExtra("numIndice", "1");
+					intent.putExtra("date", recup);
+					
+					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup);
+					DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
+					startActivity(intent);
+				}else{
+					AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+					localBuilder
+					.setMessage("Désolé mais un autre utilisateur a déjà créé une chasse au trésor avec ce nom.")
+					.setCancelable(false)
+					.setNeutralButton("Ok",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+						}
+					}
+							);
+					localBuilder.create().show();
+				}
 			}else{
 				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 				localBuilder

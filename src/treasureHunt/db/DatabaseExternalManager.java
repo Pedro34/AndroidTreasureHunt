@@ -23,7 +23,7 @@ public class DatabaseExternalManager {
 
 	}
 
-	public void getServerData(String apiRequest,String data){
+	private JSONArray getServerData(String apiRequest,String data){
 		InputStream is=null;
 		String result="";
 		ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -56,19 +56,40 @@ public class DatabaseExternalManager {
 		}
 
 		// Parse les données JSON
+		JSONArray jArray=null;
 		try{
-			JSONArray jArray = new JSONArray(result);
-			for(int i=0;i<jArray.length();i++){
+			jArray = new JSONArray(result);
+			/*for(int i=0;i<jArray.length();i++){
 				JSONObject json_data = jArray.getJSONObject(i);
 				Log.i("log_tag","ID_ville: "+json_data.getInt("ID_ville")+
 						", Nom_ville: "+json_data.getString("Nom_ville")
 						);
-				// Résultats de la requête
-				//returnString += "\n\t" + jArray.getJSONObject(i);
+				 Résultats de la requête
+				returnString += "\n\t" + jArray.getJSONObject(i);
+			}*/
+		}catch(JSONException e){
+			Log.e("log_tag", "Error parsing data " + e.toString());
+		}
+		return jArray;
+	}
+	
+	/**
+	 * 
+	 * @param nom Le nom de la chasse aux trésors
+	 * @return Vrai s'il existe déjà dans la BD externe.
+	 * Faux sinon.
+	 */
+	public boolean treasureNameAlreadyExist(String nom){
+		JSONArray jArray=getServerData("treasureNameAlreadyExist", nom);
+		boolean retour=true;
+		try{
+			for(int i=0;i<jArray.length();i++){
+				JSONObject json_data = jArray.getJSONObject(i);
+				retour=json_data.getBoolean("retour");
 			}
 		}catch(JSONException e){
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}
-
+		return retour;
 	}
 }
