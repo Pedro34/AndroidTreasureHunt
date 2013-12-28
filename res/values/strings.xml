@@ -3,9 +3,9 @@
 
     <!-- Titres des activités -->
 
-    <string name="title_activity_treasure_hunt_creation">TreasureHuntCreation</string>
-    <string name="title_activity_treasure_hunt_utility_creation">TreasureHuntUtilityCreation</string>
-    <string name="title_activity_treasure_hunt_participation">TreasureHuntParticipation</string>
+    <string name="title_activity_treasure_hunt_creation">Créez votre chasse aux trésors</string>
+    <string name="title_activity_treasure_hunt_utility_creation">Ajoutez des trésors à votre chasse</string>
+    <string name="title_activity_treasure_hunt_participation">Participez à une chasse aux trésors</string>
     <string name="title_activity_treasure_hunt_starting">TreasureHuntStarting</string>
     <string name="title_activity_treasure_hunt_to_participate">TreasureHuntToParticipate</string>
     <string name="title_activity_permission_gps">PermissionGps</string>
@@ -32,6 +32,7 @@
 	<string name="latitude">Latitude</string>
 	<string name="launch">Lancez la partie!</string>
 	<string name="manage">Gérez vos chasses aux trésors</string>
+	<string name="remove_treasure">Supprimer une chasse aux trésors</string>
 	
 	<!-- Strings pour la BD -->
 	<!-- Table Treasure -->

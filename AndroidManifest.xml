@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="18" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"></uses-permission>
@@ -44,6 +44,10 @@
         <activity
             android:name="treasureHunt.ActivityUtilityCreation"
             android:label="@string/title_activity_treasure_hunt_utility_creation" >
+        </activity>
+        <activity
+            android:name="treasureHunt.ActivityManageHunts"
+            android:label="@string/title_activity_manage_hunts" >
         </activity>
         <activity
             android:name="treasureHunt.PermissionGps"
