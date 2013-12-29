@@ -108,6 +108,17 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	}
 	
 	/**
+	 * Permet de supprimer un trésor lors de la participation d'un utilisateur
+	 * après qu'il l'ait trouvé.
+	 * @param db La BD à modifier
+	 * @param numIndice Le numéro d'indice à supprimer
+	 */
+	public void deleteAfterTreasureFound(SQLiteDatabase db,int numIndice){
+		String selection=HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+" = "+numIndice;
+		db.delete(HuntEntry.TABLE_NAME, selection, null);
+	}
+	
+	/**
 	 * 
 	 * @param db La BD à pour insérer
 	 * @param hunt L'objet complexe {@link Hunt} à insérer

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -45,4 +46,21 @@ public class TreasureHunt extends Activity {
 		startActivity(intent);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.local:
+				intent = new Intent(this,ActivityManageHunts.class);
+				intent.putExtra("mode", "local");
+				startActivity(intent);
+				return true;
+			case R.id.imported:
+				intent = new Intent(this,ActivityManageHunts.class);
+				intent.putExtra("mode", "imported");
+				startActivity(intent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 }
