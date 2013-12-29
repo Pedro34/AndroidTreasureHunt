@@ -13,6 +13,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.json.*;
 
+import treasureHunt.model.Hunt;
+import treasureHunt.model.Treasure;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 
@@ -86,6 +89,45 @@ public class DatabaseExternalManager {
 			for(int i=0;i<jArray.length();i++){
 				JSONObject json_data = jArray.getJSONObject(i);
 				retour=json_data.getBoolean("retour");
+			}
+		}catch(JSONException e){
+			Log.e("log_tag", "Error parsing data " + e.toString());
+		}
+		return retour;
+	}
+	
+	public String importDataToAndroid(String nom){
+		JSONArray jArray=getServerData("treasureNameAlreadyExist", nom);
+		String retour="";
+		Treasure treasureObj=new Treasure();
+		Hunt huntObj=new Hunt();
+		try{
+			for(int i=0;i<jArray.length();i++){
+				JSONObject json_data = jArray.getJSONObject(i);
+				try{
+					retour=json_data.getString("retour");
+				}finally{
+					JSONArray treasure=json_data.getJSONArray("treasure");//correspond à la table Treasure
+					JSONArray hunt=json_data.getJSONArray("hunt");//correspond à la table Hunt
+					for(int j=0;j<treasure.length();j++){
+						JSONObject json_data_treasure = jArray.getJSONObject(j);
+						treasureObj.setNomChasse(json_data_treasure.getString("nom"));
+						treasureObj.setDateOrganisation(json_data_treasure.getString("date"));
+					}
+					treasureObj.setMode("imported");
+					SQLiteDatabase db=DatabaseManager.getInstance(null).getReadableDatabase();
+					DatabaseManager.getInstance(null).insertIntoTreasure(db, treasureObj);
+					for (int j=0;j<hunt.length();j++){
+						JSONObject json_data_hunt = jArray.getJSONObject(j);
+						huntObj.setNomChasse(json_data_hunt.getString("nom"));
+						huntObj.setNumIndice(json_data_hunt.getInt("numIndice"));
+						huntObj.setIndice(json_data_hunt.getString("indice"));
+						huntObj.setLongitude(json_data_hunt.getDouble("longitude"));
+						huntObj.setLatitude(json_data_hunt.getDouble("latitude"));
+						DatabaseManager.getInstance(null).insertIntoHunt(db, huntObj);
+					}
+					retour="Vous venez d'importer la chasse aux trésors: "+nom;
+				}
 			}
 		}catch(JSONException e){
 			Log.e("log_tag", "Error parsing data " + e.toString());
