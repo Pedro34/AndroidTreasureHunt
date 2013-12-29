@@ -32,8 +32,8 @@
 	<string name="latitude">Latitude</string>
 	<string name="launch">Lancez la partie!</string>
 	<string name="manage">Gérez vos chasses aux trésors</string>
-	<string name="remove_treasure">Supprimer une chasse aux trésors</string>
-	<string name="modify_treasure">Modifiez votre chasse aux trésors</string>
+	<string name="remove_treasure">Supprimez/Abandonnez une chasse aux trésors</string>
+	<string name="modify_treasure">Modifiez/Continuez votre chasse aux trésors</string>
 	<string name="local">Vos créations</string>
 	<string name="imported">Vos participations</string>
 	<!-- Strings pour la BD -->

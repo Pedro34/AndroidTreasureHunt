@@ -28,17 +28,25 @@ public class ActivityManageHunts extends Activity {
 	protected Object actionMode;
 	public int selectedItem = -1;
 	public Cursor cursor;
-	public Intent intent;
+	public Intent intentLocal;
+	public Intent intentImported;
+	public Intent mode;
+	public String modeString;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manage_hunts);
 		
-		intent=new Intent(this,ActivityUtilityCreation.class);
+		intentLocal=new Intent(this,ActivityUtilityCreation.class);
+		intentImported=new Intent(this,ActivityParticipation.class);
+		
+		mode=getIntent();
+		modeString=mode.getStringExtra("mode");
 		
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
-		cursor=DatabaseManager.getInstance(null).treasures(db);
+		
+		cursor=DatabaseManager.getInstance(null).treasures(db,modeString);
 		
 		startManagingCursor(cursor);
 		
@@ -86,8 +94,13 @@ public class ActivityManageHunts extends Activity {
 				mode.finish();
 				return true;
 			case R.id.modify_treasure_item:
-				completeIntent();
-				startActivity(intent);
+				if (modeString.equals("local")){
+					completeIntentLocal();//pour continuer la création d'une chasse aux trésors
+					startActivity(intentLocal);
+				}else{
+					completeIntentImported();//pour continuer une partie de chasse aux trésors 
+					startActivity(intentImported);
+				}
 				return true;
 			default:
 				return false;
@@ -134,14 +147,26 @@ public class ActivityManageHunts extends Activity {
 		this.recreate();
 	}
 	
-	private void completeIntent(){
+	private void completeIntentLocal(){
 		cursor.moveToFirst();
 		cursor.moveToPosition(selectedItem);
 		String treasureName=cursor.getString(1);
-		intent.putExtra("nomChasse",treasureName);
+		intentLocal.putExtra("nomChasse",treasureName);
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
 		int max=DatabaseManager.getInstance(null).numIndiceMax(db, treasureName);
-		intent.putExtra("numIndice", max+1);
+		intentLocal.putExtra("numIndice", max+1);
+	}
+	
+	
+	private void completeIntentImported(){
+		cursor.moveToFirst();
+		cursor.moveToPosition(selectedItem);
+		String treasureName=cursor.getString(1);
+		intentImported.putExtra("nomChasse",treasureName);
+		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
+		int max=DatabaseManager.getInstance(null).numIndiceMax(db, treasureName);
+		intentImported.putExtra("numIndice", max);//on donne l'indice sur lequel l'utilisateur
+		//s'est arrété
 	}
 	
 	@Override

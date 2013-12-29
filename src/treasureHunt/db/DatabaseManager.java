@@ -154,18 +154,21 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	}
 	
 	/**
-	 * Renvoie un curseur pointant sur tous les chasses aux trésors 
-	 * créés par l'utilisateur
+	 * Renvoie un curseur pointant sur toutes les chasses aux trésors 
+	 * créés par l'utilisateur en fonction du mode passé en param
+	 * @param mode Le mode de la chasse aux trésors
 	 * @param db La BD à interroger
 	 * @return Renvoie un {@link Cursor} pointant sur tous les chasses aux trésors 
 	 * créés par l'utilisateur
 	 */
-	public Cursor treasures(SQLiteDatabase db){
+	public Cursor treasures(SQLiteDatabase db,String mode){
 		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
 		_QB.setTables(TreasureEntry.TABLE_NAME);
 		String[] projection = {TreasureEntry.FULL_ID,TreasureEntry.COLUMN_NAME_TREASURE_NAME,TreasureEntry.COLUMN_NAME_TREASURE_DATE};
+		String selection=TreasureEntry.COLUMN_NAME_TREASURE_MODE+" = ? ";
+		String[] selectionArgs={mode};
 		String sortOrder =TreasureEntry.COLUMN_NAME_TREASURE_NAME+ASC;
-		return _QB.query(db,projection,null,null,null,null,sortOrder);
+		return _QB.query(db,projection,selection,selectionArgs,null,null,sortOrder);
 	}
 	
 	/**
