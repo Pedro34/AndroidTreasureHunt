@@ -57,9 +57,8 @@ public class ActivityCreation extends Activity implements OnClickListener{
 					intent = new Intent(this, ActivityUtilityCreation.class);
 					intent.putExtra("nomChasse", new_hunt.getText().toString());
 					intent.putExtra("numIndice", "1");
-					intent.putExtra("date", recup);
 					
-					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup);
+					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup,"local");
 					DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
 					startActivity(intent);
 				}else{

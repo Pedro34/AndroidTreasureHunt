@@ -83,6 +83,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		ContentValues values = new ContentValues();
 		values.put(TreasureEntry.COLUMN_NAME_TREASURE_NAME, treasure.getNomChasse());
 		values.put(TreasureEntry.COLUMN_NAME_TREASURE_DATE, treasure.getDateOrganisation());
+		values.put(TreasureEntry.COLUMN_NAME_TREASURE_MODE, treasure.getMode());
 		db.insert(TreasureEntry.TABLE_NAME, null, values);
 	}
 	
@@ -141,11 +142,38 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		return rows==0;
 	}
 	
+	/**
+	 * Renvoie un curseur pointant sur tous les chasses aux trésors 
+	 * créés par l'utilisateur
+	 * @param db La BD à interroger
+	 * @return Renvoie un {@link Cursor} pointant sur tous les chasses aux trésors 
+	 * créés par l'utilisateur
+	 */
 	public Cursor treasures(SQLiteDatabase db){
 		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
 		_QB.setTables(TreasureEntry.TABLE_NAME);
 		String[] projection = {TreasureEntry.FULL_ID,TreasureEntry.COLUMN_NAME_TREASURE_NAME,TreasureEntry.COLUMN_NAME_TREASURE_DATE};
 		String sortOrder =TreasureEntry.COLUMN_NAME_TREASURE_NAME+ASC;
 		return _QB.query(db,projection,null,null,null,null,sortOrder);
+	}
+	
+	/**
+	 * 
+	 * @param db La BD à interroger
+	 * @param nom Le nom de la chasse à trouver
+	 * @return Renvoie le dernier indice inséré par l'utilisateur en 
+	 * fonction du nom de la chasse donnée en paramètre
+	 */
+	public int numIndiceMax(SQLiteDatabase db,String nom){
+		String[] selectionArgs={nom};
+		Cursor curs=db.rawQuery("SELECT MAX("+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+") AS max "
+				+ "FROM "+HuntEntry.TABLE_NAME
+				+" WHERE "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ? ", selectionArgs);
+		
+		int retour=1;
+		while (curs.moveToNext()){
+			retour=curs.getInt(0);
+		}
+		return retour;
 	}
 }

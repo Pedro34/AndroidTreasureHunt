@@ -6,6 +6,7 @@ import treasureHunt.db.DatabaseManager;
 import com.example.treasurehunt2.R;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -27,11 +28,14 @@ public class ActivityManageHunts extends Activity {
 	protected Object actionMode;
 	public int selectedItem = -1;
 	public Cursor cursor;
+	public Intent intent;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manage_hunts);
+		
+		intent=new Intent(this,ActivityUtilityCreation.class);
 		
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
 		cursor=DatabaseManager.getInstance(null).treasures(db);
@@ -81,6 +85,10 @@ public class ActivityManageHunts extends Activity {
 				removeItem();
 				mode.finish();
 				return true;
+			case R.id.modify_treasure_item:
+				completeIntent();
+				startActivity(intent);
+				return true;
 			default:
 				return false;
 			}
@@ -124,6 +132,16 @@ public class ActivityManageHunts extends Activity {
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportHunt(db, treasureName);
 		Log.println(Log.INFO, "La chasse aux trésors: ", "" + treasureName);
 		this.recreate();
+	}
+	
+	private void completeIntent(){
+		cursor.moveToFirst();
+		cursor.moveToPosition(selectedItem);
+		String treasureName=cursor.getString(1);
+		intent.putExtra("nomChasse",treasureName);
+		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
+		int max=DatabaseManager.getInstance(null).numIndiceMax(db, treasureName);
+		intent.putExtra("numIndice", max+1);
 	}
 	
 	@Override

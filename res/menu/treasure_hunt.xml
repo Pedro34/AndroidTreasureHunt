@@ -5,5 +5,22 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-
+	<item 
+	    android:id="@+id/manage_treasures"
+	    android:orderInCategory="100"
+	    android:showAsAction="ifRoom"
+	    android:title="@string/title_activity_manage_hunts">
+	    <menu>
+	        <item
+	            android:id="@+id/local"
+	            android:orderInCategory="100"
+	    		android:showAsAction="ifRoom"
+	    		android:title="@string/local"/>
+	        <item
+	            android:id="@+id/imported" 
+	            android:orderInCategory="100"
+	    		android:showAsAction="ifRoom"
+	    		android:title="@string/imported"/>
+	    </menu>
+	</item>
 </menu>

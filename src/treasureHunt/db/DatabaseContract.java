@@ -12,7 +12,21 @@ public class DatabaseContract {
 		public static final String TABLE_NAME="treasure";
 		public static final String FULL_ID=TABLE_NAME+"."+_ID;
 		public static final String COLUMN_NAME_TREASURE_NAME="name";
-		public static final String COLUMN_NAME_TREASURE_DATE = "date";
+		public static final String COLUMN_NAME_TREASURE_DATE ="date";
+		/**
+		 * Le mode peut prendre deux valeurs:
+		 * <ul>
+		 * 	<li>
+		 * 	imported correspond à une chasse aux trésors pour laquelle
+		 * 	l'utilisateur participe
+		 * 	</li>
+		 * 	<li>
+		 * 	local correspond à une chasse aux trésors pour laquelle
+		 * 	l'utilisateur est créateur
+		 * 	</li>
+		 * </ul>
+		 */
+		public static final String COLUMN_NAME_TREASURE_MODE="mode";
 	}
 	
 	public static abstract class HuntEntry implements BaseColumns{
