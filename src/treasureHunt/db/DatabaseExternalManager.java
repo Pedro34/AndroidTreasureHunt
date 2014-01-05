@@ -7,10 +7,13 @@ import java.util.ArrayList;
 
 import org.apache.http.*;
 import org.apache.http.client.*;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.entity.StringEntity;
 import org.json.*;
 
 import treasureHunt.model.Hunt;
@@ -26,6 +29,21 @@ public class DatabaseExternalManager {
 
 	}
 
+	private void sendDataToServer(JSONObject obj){
+		try{
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(strURL);
+		httppost.setHeader("Content-type", "application/json");
+		
+		StringEntity se = new StringEntity(obj.toString()); 
+		se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+		httppost.setEntity(se); 
+		HttpResponse response = httpclient.execute(httppost);
+		}catch(Exception e){
+			
+		}
+	}
+	
 	private JSONArray getServerData(String apiRequest,String data){
 		InputStream is=null;
 		String result="";

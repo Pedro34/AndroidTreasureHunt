@@ -27,15 +27,37 @@
 				}
 				print(json_encode($output));
 			}
+            
 			/*
 			 * Permet à un utilisateur d'exporter sa chasse aux tésors qu'il a 
 			 * créé vers la BD externe
 			 * On donnera les données à expoter sous format json
+             * 
+             * pool de test {"treasure":{"nom":"coucou","date":"2014-01-05"},"hunt":[{"nom":"coucou","numIndice":"1","indice":"Vous devez vous rendre à l'hôtel le plus connu de la capital de France.","longitude":"12.175867834","latitude":"56.846897829"}]}
 			 */
 			if (isset($_REQUEST['exportDataFromAndroid'])){
-				$input=json_decode($_REQUEST['exportData']);
-				
+				$input=json_decode($_REQUEST['exportDataFromAndroid'],true);
+                if(!$input){
+                    print("Le JSON n'est pas parsable");
+                }
+				$treasureTab=$input['treasure'];
+				$huntTab=$input['hunt'];
+                $nomTreasure=$treasureTab['nom'];
+                $dateTreasure=$treasureTab['date'];//TODO: devra certainement avoir besoinde transformation... 
+                //echo $treasureTab." ".$huntTab;
+                $sqlTreasure=mysql_query("INSERT INTO Treasure (Nom,Date) VALUES('".$nomTreasure."','".$dateTreasure."')");
+                for ($i=0;$i<count($huntTab);$i++){
+                    /*$huntTab['nom'];
+                    $huntTab['numIndice'];
+                    $huntTab['indice'];
+                    $huntTab['longitude'];
+                    $huntTab['latitude'];*/
+                    $sqlHunt=mysql_query("INSERT INTO Hunt (Nom,NumIndice,Indice,Longitude,Latitude) VALUES (
+                    '".$huntTab['nom']."',".$huntTab['numIndice'].",'".$huntTab['indice']."',
+                    ".$huntTab['longitude'].",".$huntTab['latitude']."");
+                }
 			}
+            
 			/*
 			 * Permet de vérifier si la date d'organisation de la 
 			 * chasse au trésor correspond à celle du jour courant
@@ -54,11 +76,11 @@
 					if ($date==$date_system){
 						$output=$this->importDataToAndroid($_REQUEST['verifyNameAndDateBeforeParticipating']);
 					}else{
-						$output=array("retour"=>false);
+						$output=array("retour"=>htmlentities("La chasse au trésor n'est pas prévue à ce jour", ENT_QUOTES, 'utf-8'));
 					}
 				}else{
 					//le nom de la chasse au trésor indiqué par l'utilisateur n'existe pas
-					$output=array("retour"=>false);
+					$output=array("retour"=>htmlentities("Le nom de la chasse au trésor est déjà utilisé", ENT_QUOTES, 'utf-8'));
 				}
 				print(json_encode($output));
 			}
@@ -66,19 +88,24 @@
 		}
 		
 		private function importDataToAndroid($name){
-			$sql=mysql_query("SELECT * FROM Treasure t,Hunt h WHERE t.nom='".$name."' AND h.nom='".$name."'",$this->dm->database_link);
+			$sql=mysql_query("SELECT * FROM Treasure WHERE nom='".$name."'",$this->dm->database_link);
+			$sql_hunt=mysql_query("SELECT * FROM Hunt WHERE nom='".$name."'",$this->dm->database_link);
 			$output;
 			$treasure;
 			$hunt;
+            $hunt_final=array();
 			while($row=mysql_fetch_assoc($sql)){
 				$treasure=array("nom"=>htmlentities($row['Nom'], ENT_QUOTES, 'iso-8859-1'),"date"=>$row['Date']);
-				$hunt=array("nom"=>htmlentities($row['Nom'], ENT_QUOTES, 'iso-8859-1'),
-				"numIndice"=>$row['NumIndice'],
-				"indice"=>htmlentities($row['Indice'], ENT_QUOTES, 'iso-8859-1'),
-				"longitude"=>$row['Longitude'],
-				"latitude"=>$row['Latitude']);
 			}
-			$output=array("treasure"=>$treasure,"hunt"=>$hunt);
+            while($row_hunt=mysql_fetch_assoc($sql_hunt)){
+                $hunt=array("nom"=>htmlentities($row_hunt['Nom'], ENT_QUOTES, 'iso-8859-1'),
+                "numIndice"=>$row_hunt['NumIndice'],
+                "indice"=>htmlentities($row_hunt['Indice'], ENT_QUOTES, 'iso-8859-1'),
+                "longitude"=>$row_hunt['Longitude'],
+                "latitude"=>$row_hunt['Latitude']);
+                array_push($hunt_final,$hunt);
+            }
+			$output=array("treasure"=>$treasure,"hunt"=>$hunt_final);
 			return $output;
 		}
 	}
