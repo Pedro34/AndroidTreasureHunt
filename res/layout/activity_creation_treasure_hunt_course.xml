@@ -14,56 +14,6 @@
         android:text="@string/end_course" 
         android:onClick="endCourse" />
 
-    <TextView
-        android:id="@+id/current_position"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:text="@string/current_position" />
-
-    <EditText
-        android:id="@+id/textlong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/add_treasure"
-        android:layout_alignLeft="@+id/textlat"
-        android:layout_marginBottom="48dp"
-        android:background="#677179"
-        android:ems="10"
-        android:text="@string/longitude"
-        android:textColor="#E21313" 
-        android:inputType="numberDecimal">
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/textlat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/current_position"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:background="#677179"
-        android:ems="10"
-        android:text="@string/latitude"
-        android:textColor="#E21313"
-        android:inputType="numberDecimal" />
-
-    <EditText
-        android:id="@+id/clue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textlat"
-        android:layout_below="@+id/textlong"
-        android:layout_marginTop="37dp"
-        android:background="#677179"
-        android:ems="10"
-        android:inputType="text"
-        android:text="@string/clue"
-        android:textColor="#E21313" />
-
     <Button
         android:id="@+id/add_treasure"
         android:layout_width="wrap_content"
@@ -73,5 +23,56 @@
         android:layout_marginTop="122dp"
         android:onClick="addTreasure"
         android:text="@string/add_treasure" />
+
+    <EditText
+        android:id="@+id/clue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textlat"
+        android:layout_below="@+id/textlong"
+        android:layout_marginTop="27dp"
+        android:background="#677179"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/clue"
+        android:textColor="#E21313" />
+
+    <EditText
+        android:id="@+id/textlong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/clue"
+        android:layout_below="@+id/textlat"
+        android:layout_marginTop="23dp"
+        android:background="#677179"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="@string/longitude"
+        android:textColor="#E21313" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/current_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:text="@string/current_position" />
+
+    <EditText
+        android:id="@+id/textlat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_position"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="#677179"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="@string/latitude"
+        android:textColor="#E21313" />
 
 </RelativeLayout>

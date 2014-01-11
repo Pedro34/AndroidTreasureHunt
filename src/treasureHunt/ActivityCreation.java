@@ -52,7 +52,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 			if (DatabaseManager.getInstance(null).treasureNameNotAlreadyExistLocally(db, new_hunt.getText().toString())){
 
 				DatabaseExternalManager dem=new DatabaseExternalManager();
-				if (!dem.treasureNameAlreadyExist(new_hunt.getText().toString())){
+				//if (!dem.treasureNameAlreadyExist(new_hunt.getText().toString())){
 					Intent intent;
 					intent = new Intent(this, ActivityUtilityCreation.class);
 					intent.putExtra("nomChasse", new_hunt.getText().toString());
@@ -61,7 +61,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup,"local");
 					DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
 					startActivity(intent);
-				}else{
+				/*}else{
 					AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 					localBuilder
 					.setMessage("Désolé mais un autre utilisateur a déjà créé une chasse au trésor avec ce nom.")
@@ -73,7 +73,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 					}
 							);
 					localBuilder.create().show();
-				}
+				}*/
 			}else{
 				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 				localBuilder

@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 public class DatabaseManager extends SQLiteOpenHelper{
 	private static DatabaseManager instance=null;
 	
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "TreasureHunt.db";
     
     private static final String TEXT_TYPE = " TEXT";

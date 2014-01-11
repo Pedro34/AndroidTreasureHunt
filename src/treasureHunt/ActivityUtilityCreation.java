@@ -39,7 +39,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 
 		nomChasse=creationRecup.getStringExtra("nomChasse");
 		numIndice=Integer.parseInt(creationRecup.getStringExtra("numIndice"));
-		
+
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			Intent localIntent = new Intent(this, PermissionGps.class);
@@ -61,7 +61,6 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
 		mTxtViewlat.setText(Double.toString(location.getLatitude()));
 		mTxtViewlong.setText(Double.toString(location.getLongitude()));
 
@@ -73,7 +72,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		//Lorsque la source (GSP ou r√©seau GSM) est d√©sactiv√©
 		//...on affiche un Toast pour le signaler √† l'utilisateur
 		Toast.makeText(this,
-				String.format("La source \"%s\" a √©t√© d√©sactiv√©", provider),
+				String.format("La source \"%s\" a ÈtÈ dÈsactivÈe", provider),
 				Toast.LENGTH_LONG).show();
 		//... et on sp√©cifie au service que l'on ne souhaite plus avoir de mise √† jour
 		//TreasureHunt.myPosition.removeUpdates(this);
@@ -87,7 +86,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
 		setProgressBarIndeterminateVisibility(false);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Trouv√© !");
+		builder.setTitle("TrouvÈ !");
 		builder.setMessage("HAHAHAHAH");
 		builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
@@ -110,8 +109,11 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			Hunt hunt=new Hunt(nomChasse,numIndice,indice.getText().toString(),Double.parseDouble(longi),Double.parseDouble(lati));
 			SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
 			DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
-			
+
 			numIndice++;
+			Toast.makeText(this,
+					String.format("Indice n∞ \"%s\" ajoutÈ !", numIndice),
+					Toast.LENGTH_LONG).show();
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
@@ -130,7 +132,6 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	public void endCourse(View v){
 		String lati=mTxtViewlat.getText().toString();
 		String longi=mTxtViewlong.getText().toString();
-		
 		Hunt hunt=new Hunt(nomChasse,numIndice,Double.parseDouble(longi),Double.parseDouble(lati));
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
 		DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
@@ -138,8 +139,22 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		//Apr√®s l'export on enl√®ve de la BD
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportTreasure(db, nomChasse);
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportHunt(db, nomChasse);
+		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+		localBuilder
+		.setMessage("Chasse CrÈÈe !")
+		.setCancelable(false)
+		.setNeutralButton("Revenir au menu principal",
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+				Intent terminate = new Intent(ActivityUtilityCreation.this, TreasureHunt.class);
+				startActivity(terminate);
+				ActivityUtilityCreation.this.finish();
+			}
+		}
+				);
+		localBuilder.create().show();
 	}
-	
+
 	@Override
 	public void onProviderEnabled(String provider) {
 		// TODO Auto-generated method stub
@@ -154,6 +169,19 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 
 	@Override
 	public void onBackPressed(){
-
+		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+		localBuilder
+		.setMessage("Vous pourrez terminer votre crÈation via la gestion de vos chasses.")
+		.setCancelable(false)
+		.setNeutralButton("Ok",
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+				Intent terminate = new Intent(ActivityUtilityCreation.this, TreasureHunt.class);
+				startActivity(terminate);
+				ActivityUtilityCreation.this.finish();
+			}
+		}
+				);
+		localBuilder.create().show();
 	}
 }

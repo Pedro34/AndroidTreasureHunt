@@ -25,7 +25,7 @@
     <string name="end_course">Finir le parcours</string>
     <string name="current_position">Votre position actuelle</string>
     <string name="name_of_hunt">Nom de la chasse à laquelle vous souhaitez participer</string>
-    <string name="clue">Indice</string>
+    <string name="clue">Indice pour trouver le trésor</string>
     <string name="clue_given">Affichage de l\'indice fourni par le créateur. . .</string>
     <string name="validate_button_creation_hunt">Valider</string>
 	<string name="longitude">Longitude</string>
