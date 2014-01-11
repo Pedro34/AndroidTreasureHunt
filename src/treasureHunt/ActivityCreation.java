@@ -56,7 +56,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 					Intent intent;
 					intent = new Intent(this, ActivityUtilityCreation.class);
 					intent.putExtra("nomChasse", new_hunt.getText().toString());
-					intent.putExtra("numIndice", "1");
+					intent.putExtra("numIndice", "0");
 					
 					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup,"local");
 					DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
@@ -77,7 +77,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 			}else{
 				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 				localBuilder
-				.setMessage("DÃ©solÃ© mais vous avez dÃ©jÃ  crÃ©er une chasse au trÃ©sor avec ce mÃªme nom.")
+				.setMessage("Désolé mais vous avez déjà  créer une chasse au trésor avec ce même nom.")
 				.setCancelable(false)
 				.setNeutralButton("Ok",
 						new DialogInterface.OnClickListener() {

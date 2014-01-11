@@ -181,14 +181,15 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	 */
 	public int numIndiceMax(SQLiteDatabase db,String nom){
 		String[] selectionArgs={nom};
-		Cursor curs=db.rawQuery("SELECT MAX("+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+") AS max "
+		Cursor curs=db.rawQuery("SELECT COUNT("+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+")"
 				+ "FROM "+HuntEntry.TABLE_NAME
 				+" WHERE "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ? ", selectionArgs);
-		
-		int retour=1;
+		curs.moveToFirst();
+		int count= curs.getInt(0);
+		/*int retour=1;
 		while (curs.moveToNext()){
 			retour=curs.getInt(0);
-		}
-		return retour;
+		}*/
+		return count;
 	}
 }

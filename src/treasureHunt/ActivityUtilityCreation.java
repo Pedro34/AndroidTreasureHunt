@@ -106,11 +106,11 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			String lati=mTxtViewlat.getText().toString();
 			String longi=mTxtViewlong.getText().toString();
 
+			numIndice++;
 			Hunt hunt=new Hunt(nomChasse,numIndice,indice.getText().toString(),Double.parseDouble(longi),Double.parseDouble(lati));
 			SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
 			DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
 
-			numIndice++;
 			Toast.makeText(this,
 					String.format("Indice n° \"%s\" ajouté !", numIndice),
 					Toast.LENGTH_LONG).show();

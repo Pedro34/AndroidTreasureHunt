@@ -153,8 +153,9 @@ public class ActivityManageHunts extends Activity {
 		String treasureName=cursor.getString(1);
 		intentLocal.putExtra("nomChasse",treasureName);
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
-		int max=DatabaseManager.getInstance(null).numIndiceMax(db, treasureName);
-		intentLocal.putExtra("numIndice", max+1);
+		int max=DatabaseManager.getInstance(getApplicationContext()).numIndiceMax(db, treasureName);
+		System.out.println("Max :"+max+" Name :" +treasureName);
+		intentLocal.putExtra("numIndice", Integer.toString(max));
 	}
 	
 	
@@ -165,7 +166,7 @@ public class ActivityManageHunts extends Activity {
 		intentImported.putExtra("nomChasse",treasureName);
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
 		int max=DatabaseManager.getInstance(null).numIndiceMax(db, treasureName);
-		intentImported.putExtra("numIndice", max);//on donne l'indice sur lequel l'utilisateur
+		intentImported.putExtra("numIndice", Integer.toString(max));//on donne l'indice sur lequel l'utilisateur
 		//s'est arrété
 	}
 	
