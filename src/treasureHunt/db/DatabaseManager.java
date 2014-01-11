@@ -30,7 +30,8 @@ public class DatabaseManager extends SQLiteOpenHelper{
     		" ("+
     		TreasureEntry._ID+" INTEGER PRIMARY KEY,"+
     		TreasureEntry.COLUMN_NAME_TREASURE_NAME+TEXT_TYPE+COMMA_SEP+
-    		TreasureEntry.COLUMN_NAME_TREASURE_DATE+DATE_TYPE+
+    		TreasureEntry.COLUMN_NAME_TREASURE_DATE+DATE_TYPE+COMMA_SEP+
+    		TreasureEntry.COLUMN_NAME_TREASURE_MODE+TEXT_TYPE+
     		" )";
     
     private static final String SQL_CREATE_HUNT_TABLE="CREATE TABLE "+HuntEntry.TABLE_NAME+
