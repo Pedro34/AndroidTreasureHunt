@@ -22,13 +22,25 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 
-public class DatabaseExternalManager {
+public class DatabaseExternalManager extends Thread{
 	public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
-
+	public int action;
+	public String nom;
 	public DatabaseExternalManager(){
 
 	}
 
+	@Override
+	public void run(){
+		super.run();
+		switch(action){
+		case 1:
+			String retour=importDataToAndroid(nom);
+			System.out.println(retour);
+			break;
+		}
+	}
+	
 	private void sendDataToServer(JSONObject obj){
 		try{
 		HttpClient httpclient = new DefaultHttpClient();

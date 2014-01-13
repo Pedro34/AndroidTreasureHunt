@@ -33,12 +33,14 @@ public class ActivityHuntToParticipate extends Activity {
 	public void launch(View v){
 		if (hunt_name.getText().length()!=0){
 			DatabaseExternalManager dem = new DatabaseExternalManager();
-			String retour = dem.importDataToAndroid(hunt_name.getText().toString());
-			System.out.println(retour);
+			dem.action=1;//correspond Ã  l'import
+			dem.nom=hunt_name.getText().toString();
+			dem.start();
+			//String retour = dem.importDataToAndroid(hunt_name.getText().toString());
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
-			.setMessage("Pour participer il faut rentrer un de chasse au trésor.")
+			.setMessage("Pour participer il faut rentrer un de chasse au trï¿½sor.")
 			.setCancelable(false)
 			.setNeutralButton("Ok",
 					new DialogInterface.OnClickListener() {
