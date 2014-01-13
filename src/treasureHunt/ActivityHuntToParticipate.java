@@ -1,5 +1,7 @@
 package treasureHunt;
 
+import treasureHunt.db.DatabaseExternalManager;
+
 import com.example.treasurehunt2.R;
 
 import android.app.Activity;
@@ -30,12 +32,13 @@ public class ActivityHuntToParticipate extends Activity {
 	
 	public void launch(View v){
 		if (hunt_name.getText().length()!=0){
-			//TODO import des données vers la BD interne
-			
+			DatabaseExternalManager dem = new DatabaseExternalManager();
+			String retour = dem.importDataToAndroid(hunt_name.getText().toString());
+			System.out.println(retour);
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
-			.setMessage("Pour participer il faut rentrer un de chasse au trésor.")
+			.setMessage("Pour participer il faut rentrer un de chasse au tr�sor.")
 			.setCancelable(false)
 			.setNeutralButton("Ok",
 					new DialogInterface.OnClickListener() {

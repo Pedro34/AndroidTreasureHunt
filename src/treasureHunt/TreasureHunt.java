@@ -37,12 +37,7 @@ public class TreasureHunt extends Activity {
 	}
 	
 	public void participate_hunt(View v){
-		intent = new Intent(this, ActivityParticipation.class);
-		startActivity(intent);
-	}
-	
-	public void manage_hunts(View v){
-		intent = new Intent(this,ActivityManageHunts.class);
+		intent = new Intent(this, ActivityHuntToParticipate.class);
 		startActivity(intent);
 	}
 

@@ -18,26 +18,6 @@
         android:text="@string/welcome" />
 
     <Button
-        android:id="@+id/create_hunt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/welcome"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        android:onClick="create_hunt"
-        android:text="@string/create_hunt" />
-
-    <Button
-        android:id="@+id/manage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/welcome"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:onClick="manage_hunts"
-        android:text="@string/manage" />
-
-    <Button
         android:id="@+id/participate_hunt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,5 +26,15 @@
         android:layout_marginTop="15dp"
         android:onClick="participate_hunt"
         android:text="@string/participate_hunt" />
+
+    <Button
+        android:id="@+id/create_hunt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:onClick="create_hunt"
+        android:text="@string/create_hunt" />
 
 </RelativeLayout>

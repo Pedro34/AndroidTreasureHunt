@@ -23,7 +23,7 @@ import android.util.Log;
 
 
 public class DatabaseExternalManager {
-	public static final String strURL = "http://192.168.0.10/TreasureHunt/treasure.php";
+	public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
 
 	public DatabaseExternalManager(){
 
@@ -75,7 +75,7 @@ public class DatabaseExternalManager {
 		}catch(Exception e){
 			Log.e("log_tag", "Error converting result " + e.toString());
 		}
-
+		System.out.println(result);
 		// Parse les données JSON
 		JSONArray jArray=null;
 		try{
