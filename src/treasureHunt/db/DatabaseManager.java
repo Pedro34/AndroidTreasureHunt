@@ -144,8 +144,8 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	public boolean treasureNameNotAlreadyExistLocally(SQLiteDatabase db,String nom){
 		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
 		String[] projection = {TreasureEntry.COLUMN_NAME_TREASURE_NAME};
-		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ";
-		String[] selectionArgs={nom};
+		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? AND "+TreasureEntry.COLUMN_NAME_TREASURE_MODE+" = ? ";
+		String[] selectionArgs={nom,"local"};
 		
 		_QB.setTables(TreasureEntry.TABLE_NAME);
 		Cursor curseur=_QB.query(db,projection,selection,selectionArgs,null,null,null);

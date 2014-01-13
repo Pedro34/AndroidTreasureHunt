@@ -7,6 +7,8 @@ import treasureHunt.model.Treasure;
 import com.example.treasurehunt2.R;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,11 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class ActivityCreation extends Activity implements OnClickListener{
-	
+
 	Button validate_hunt;
 	EditText new_hunt;
 	EditText date_hunt;
-	
+	//boolean recuper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +35,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 		validate_hunt.setOnClickListener(this);
 		new_hunt = (EditText)findViewById(R.id.name_choosen);
 		date_hunt = (EditText)findViewById(R.id.date_picker);
-		
+
 		DatabaseManager.getInstance(getApplicationContext());
 	}
 
@@ -52,12 +55,29 @@ public class ActivityCreation extends Activity implements OnClickListener{
 			if (DatabaseManager.getInstance(null).treasureNameNotAlreadyExistLocally(db, new_hunt.getText().toString())){
 
 				DatabaseExternalManager dem=new DatabaseExternalManager();
-				//if (!dem.treasureNameAlreadyExist(new_hunt.getText().toString())){
+				dem.action=2;
+				dem.nom=new_hunt.getText().toString();
+				Handler hand= new Handler();
+				dem.hand=hand;
+				dem.start();
+
+				/*Message msg;
+				try {
+					wait(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Bundle b=msg.getData();
+				boolean recuper=b.getBoolean("retour");
+				boolean recuper=dem.isRetourDEM();
+				System.out.println("Dans l'activité: "+recuper);
+				if (!recuper){*/
 					Intent intent;
 					intent = new Intent(this, ActivityUtilityCreation.class);
 					intent.putExtra("nomChasse", new_hunt.getText().toString());
 					intent.putExtra("numIndice", "0");
-					
+
 					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup,"local");
 					DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
 					startActivity(intent);
