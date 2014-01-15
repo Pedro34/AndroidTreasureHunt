@@ -1,5 +1,10 @@
 package treasureHunt.db;
 
+import java.util.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import treasureHunt.db.DatabaseContract.HuntEntry;
 import treasureHunt.db.DatabaseContract.TreasureEntry;
 import treasureHunt.model.Hunt;
@@ -144,8 +149,8 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	public boolean treasureNameNotAlreadyExistLocally(SQLiteDatabase db,String nom){
 		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
 		String[] projection = {TreasureEntry.COLUMN_NAME_TREASURE_NAME};
-		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? AND "+TreasureEntry.COLUMN_NAME_TREASURE_MODE+" = ? ";
-		String[] selectionArgs={nom,"local"};
+		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ";
+		String[] selectionArgs={nom};
 		
 		_QB.setTables(TreasureEntry.TABLE_NAME);
 		Cursor curseur=_QB.query(db,projection,selection,selectionArgs,null,null,null);
@@ -191,5 +196,34 @@ public class DatabaseManager extends SQLiteOpenHelper{
 			retour=curs.getInt(0);
 		}*/
 		return count;
+	}
+	
+	public JSONObject retreiveInformation(SQLiteDatabase db,String nom){
+		String[] selectionArgs={nom};
+		Cursor curs=db.rawQuery("SELECT  "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+","+TreasureEntry.COLUMN_NAME_TREASURE_DATE
+				+ " FROM "+TreasureEntry.TABLE_NAME
+				+ " WHERE "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ", selectionArgs);
+		String nomChasse=curs.getString(0);
+		String date=curs.getString(1);
+		Treasure t=new Treasure(nomChasse, date);
+		
+		Cursor curs2=db.rawQuery("SELECT * FROM "+HuntEntry.TABLE_NAME
+				+" WHERE "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ?", selectionArgs);
+		ArrayList<Hunt> huntList=new ArrayList<Hunt>();
+		while (curs.moveToNext()){
+			String nomH=curs2.getString(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_HUNT_NAME));
+			int numIndice=curs2.getInt(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM));
+			String indice=curs2.getString(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_CLUE));
+			double longit=curs2.getDouble(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_LONG));
+			double latit=curs2.getDouble(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_LAT));
+			Hunt h=new Hunt(nomH, numIndice, indice, longit, latit);
+			huntList.add(h);
+		}
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("treasure", t);
+		map.put("hunt", huntList);
+		
+		JSONObject json=new JSONObject(map);
+		return json;
 	}
 }

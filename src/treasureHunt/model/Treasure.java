@@ -16,6 +16,11 @@ public class Treasure {
 		this.setMode(mode);
 	}
 
+	public Treasure(String nomChasse,String dateOrganisation){
+		this.nomChasse=nomChasse;
+		this.dateOrganisation=dateOrganisation;
+	}
+	
 	public long getId() {
 		return id;
 	}

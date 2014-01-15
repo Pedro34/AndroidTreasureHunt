@@ -1,5 +1,8 @@
 package treasureHunt;
 
+import org.json.JSONObject;
+
+import treasureHunt.db.DatabaseExternalManager;
 import treasureHunt.db.DatabaseManager;
 import treasureHunt.model.Hunt;
 
@@ -72,7 +75,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		//Lorsque la source (GSP ou rÃ©seau GSM) est dÃ©sactivÃ©
 		//...on affiche un Toast pour le signaler Ã  l'utilisateur
 		Toast.makeText(this,
-				String.format("La source \"%s\" a été désactivée", provider),
+				String.format("La source \"%s\" a ï¿½tï¿½ dï¿½sactivï¿½e", provider),
 				Toast.LENGTH_LONG).show();
 		//... et on spÃ©cifie au service que l'on ne souhaite plus avoir de mise Ã  jour
 		//TreasureHunt.myPosition.removeUpdates(this);
@@ -86,7 +89,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
 		setProgressBarIndeterminateVisibility(false);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Trouvé !");
+		builder.setTitle("Trouvï¿½ !");
 		builder.setMessage("HAHAHAHAH");
 		builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
@@ -112,7 +115,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
 
 			Toast.makeText(this,
-					String.format("Indice n° \"%s\" ajouté !", numIndice),
+					String.format("Indice nï¿½ \"%s\" ajoutï¿½ !", numIndice),
 					Toast.LENGTH_LONG).show();
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
@@ -136,18 +139,24 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
 		DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
 		//TODO export des donnÃ©es Ã  effectuer
+		//......................................
+		JSONObject json=DatabaseManager.getInstance(getApplicationContext()).retreiveInformation(db, nomChasse);
+		DatabaseExternalManager dem=new DatabaseExternalManager();
+		dem.sendDataToServer(json);
+		//..............................................
 		//AprÃ¨s l'export on enlÃ¨ve de la BD
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportTreasure(db, nomChasse);
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportHunt(db, nomChasse);
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 		localBuilder
-		.setMessage("Chasse Créée !")
+		.setMessage("Chasse Crï¿½ï¿½e !")
 		.setCancelable(false)
 		.setNeutralButton("Revenir au menu principal",
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface paramDialogInterface, int paramInt) {
 				Intent terminate = new Intent(ActivityUtilityCreation.this, TreasureHunt.class);
 				startActivity(terminate);
+				ActivityUtilityCreation.this.finish();
 			}
 		}
 				);
@@ -170,7 +179,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	public void onBackPressed(){
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 		localBuilder
-		.setMessage("Vous pourrez terminer votre création via la gestion de vos chasses.")
+		.setMessage("Vous pourrez terminer votre crï¿½ation via la gestion de vos chasses.")
 		.setCancelable(false)
 		.setNeutralButton("Ok",
 				new DialogInterface.OnClickListener() {
@@ -182,10 +191,5 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		}
 				);
 		localBuilder.create().show();
-	}
-	
-	@Override
-	public void onStop(){
-		super.onStop();
 	}
 }

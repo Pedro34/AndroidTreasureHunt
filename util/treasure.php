@@ -37,13 +37,16 @@
 			 */
 			if (isset($_REQUEST['exportDataFromAndroid'])){
 				$input=json_decode($_REQUEST['exportDataFromAndroid'],true);
+				$output;
+				
                 if(!$input){
                     print("Le JSON n'est pas parsable");
+                    $output=array("retour"=>"fail");
                 }
 				$treasureTab=$input['treasure'];
 				$huntTab=$input['hunt'];
-                $nomTreasure=$treasureTab['nom'];
-                $dateTreasure=$treasureTab['date'];//TODO: devra certainement avoir besoinde transformation... 
+                $nomTreasure=$treasureTab['nomChasse'];
+                $dateTreasure=$treasureTab['dateOrganisation'];//TODO: devra certainement avoir besoinde transformation... 
                 //echo $treasureTab." ".$huntTab;
                 $sqlTreasure=mysql_query("INSERT INTO Treasure (Nom,Date) VALUES('".$nomTreasure."','".$dateTreasure."')");
                 for ($i=0;$i<count($huntTab);$i++){
@@ -53,9 +56,11 @@
                     $huntTab['longitude'];
                     $huntTab['latitude'];*/
                     $sqlHunt=mysql_query("INSERT INTO Hunt (Nom,NumIndice,Indice,Longitude,Latitude) VALUES (
-                    '".$huntTab['nom']."',".$huntTab['numIndice'].",'".$huntTab['indice']."',
+                    '".$huntTab['nomChasse']."',".$huntTab['numIndice'].",'".$huntTab['indice']."',
                     ".$huntTab['longitude'].",".$huntTab['latitude']."");
                 }
+                $output=array("retour"=>"success");
+                print(json_encode($output));   
 			}
             
 			/*
