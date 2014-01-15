@@ -7,7 +7,9 @@ import com.example.treasurehunt2.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +39,10 @@ public class ActivityHuntToParticipate extends Activity {
 			dem.nom=hunt_name.getText().toString();
 			dem.start();
 			//String retour = dem.importDataToAndroid(hunt_name.getText().toString());
+			String name = hunt_name.getText().toString();
+			Intent intent = new Intent(this, ActivityStartingHunt.class);
+			intent.putExtra("nomChasse",name);
+			startActivity(intent);
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
