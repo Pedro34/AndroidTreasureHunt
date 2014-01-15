@@ -148,7 +148,6 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			public void onClick(DialogInterface paramDialogInterface, int paramInt) {
 				Intent terminate = new Intent(ActivityUtilityCreation.this, TreasureHunt.class);
 				startActivity(terminate);
-				ActivityUtilityCreation.this.finish();
 			}
 		}
 				);
@@ -183,5 +182,10 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		}
 				);
 		localBuilder.create().show();
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
 	}
 }

@@ -6,11 +6,13 @@ import treasureHunt.model.Treasure;
 
 import com.example.treasurehunt2.R;
 
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,17 +27,33 @@ public class ActivityCreation extends Activity implements OnClickListener{
 	Button validate_hunt;
 	EditText new_hunt;
 	EditText date_hunt;
+	WifiManager wifi;
 	//boolean recuper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_treasure_hunt_creation);
+	    wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+	    if(!wifi.isWifiEnabled())
+	    {
+	    	AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+			localBuilder
+			.setMessage("Le wifi est désactivé, mais celui-ci est nécessaire pour continuer.")
+			.setCancelable(false)
+			.setNeutralButton("Activer le wifi",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+					wifi.setWifiEnabled(true);
+				}
+			}
+					);
+			localBuilder.create().show();
+	    }
 		validate_hunt = (Button)findViewById(R.id.validate_button_creation_hunt);
 		validate_hunt.setOnClickListener(this);
 		new_hunt = (EditText)findViewById(R.id.name_choosen);
 		date_hunt = (EditText)findViewById(R.id.date_picker);
-
 		DatabaseManager.getInstance(getApplicationContext());
 	}
 
