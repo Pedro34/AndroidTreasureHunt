@@ -27,10 +27,12 @@ import android.util.Log;
 
 public class DatabaseExternalManager extends Thread{
 	public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
+	public static final String strURLInput = "http://192.168.1.19/TreasureHunt/inputTreasure.php";
 	public int action;
 	public String nom;
 	public Handler hand;
 	private boolean retourDEM;
+	public JSONObject toSend;
 	
 	public DatabaseExternalManager(){
 
@@ -52,25 +54,27 @@ public class DatabaseExternalManager extends Thread{
 			msg.setData(data);
 			hand.sendMessage(msg);
 			break;
+		case 3:
+			sendDataToServer(toSend);
 		}
 	}
 
-	public void sendDataToServer(JSONObject obj){
+	private void sendDataToServer(JSONObject obj){
 		InputStream is=null;
 		String result="";
 
 		try{
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost(strURL);
+			HttpPost httppost = new HttpPost(strURLInput);
 			httppost.setHeader("Content-type", "application/json");
 
-			//StringEntity se = new StringEntity(obj.toString()); 
-
-			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-			nameValuePairs.add(new BasicNameValuePair("exportDataFromAndroid",obj.toString()));
-
-			//se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs)); 
+			StringEntity se = new StringEntity(obj.toString()); 
+			se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			
+			//ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			//nameValuePairs.add(new BasicNameValuePair("exportDataFromAndroid",se.toString()));
+			
+			httppost.setEntity(se); 
 
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();

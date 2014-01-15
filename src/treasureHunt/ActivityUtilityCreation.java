@@ -142,7 +142,9 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		//......................................
 		JSONObject json=DatabaseManager.getInstance(getApplicationContext()).retreiveInformation(db, nomChasse);
 		DatabaseExternalManager dem=new DatabaseExternalManager();
-		dem.sendDataToServer(json);
+		dem.action=3;
+		dem.toSend=json;
+		dem.start();
 		//..............................................
 		//Après l'export on enlève de la BD
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportTreasure(db, nomChasse);
