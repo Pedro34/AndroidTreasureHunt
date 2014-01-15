@@ -8,6 +8,7 @@ public class Hunt {
 	private String indice;
 	private double longitude;
 	private double latitude;
+	public final String doubleQuote="\"";
 	
 	public Hunt(){
 	}
@@ -75,5 +76,11 @@ public class Hunt {
 		this.latitude = latitude;
 	}
 	
-	
+	public String toString(){
+		return "{"+doubleQuote+"nom"+doubleQuote+":"+doubleQuote+nomChasse+doubleQuote+
+				","+doubleQuote+numIndice+doubleQuote+":"+doubleQuote+numIndice+doubleQuote+
+				","+doubleQuote+"indice"+doubleQuote+":"+doubleQuote+indice+doubleQuote+","+
+				doubleQuote+"longitude"+doubleQuote+":"+doubleQuote+longitude+doubleQuote+","+
+				doubleQuote+"latitude"+doubleQuote+":"+doubleQuote+latitude+doubleQuote+"}";
+	}
 }

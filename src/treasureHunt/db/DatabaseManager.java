@@ -200,12 +200,17 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	
 	public JSONObject retreiveInformation(SQLiteDatabase db,String nom){
 		String[] selectionArgs={nom};
+		JSONObject jsonTreasure=new JSONObject();
+		
 		Cursor curs=db.rawQuery("SELECT  "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+","+TreasureEntry.COLUMN_NAME_TREASURE_DATE
 				+ " FROM "+TreasureEntry.TABLE_NAME
 				+ " WHERE "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ", selectionArgs);
 		String nomChasse=curs.getString(0);
 		String date=curs.getString(1);
-		Treasure t=new Treasure(nomChasse, date);
+		try{
+			jsonTreasure.put("nomChasse", nomChasse);
+			jsonTreasure.put("dateOrganisation", date);
+		}catch(Exception e){}
 		
 		Cursor curs2=db.rawQuery("SELECT * FROM "+HuntEntry.TABLE_NAME
 				+" WHERE "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ?", selectionArgs);
@@ -216,14 +221,24 @@ public class DatabaseManager extends SQLiteOpenHelper{
 			String indice=curs2.getString(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_CLUE));
 			double longit=curs2.getDouble(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_LONG));
 			double latit=curs2.getDouble(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_LAT));
+			
+			
 			Hunt h=new Hunt(nomH, numIndice, indice, longit, latit);
 			huntList.add(h);
-		}
-		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("treasure", t);
-		map.put("hunt", huntList);
+		}		
 		
-		JSONObject json=new JSONObject(map);
+		String huntSend="";
+		for (int i=0;i<huntList.size();i++){
+			huntSend+=huntList.get(i).toString()+",";
+		}
+		huntSend=huntSend.substring(0, huntSend.length());
+		huntSend="["+huntSend+"]";
+		JSONObject json=new JSONObject();
+		try{
+			json.put("treasure", jsonTreasure.toString());
+			json.put("hunt", huntSend);
+		}catch(Exception e){}
+		
 		return json;
 	}
 }
