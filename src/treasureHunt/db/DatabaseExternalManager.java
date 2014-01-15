@@ -19,6 +19,9 @@ import org.json.*;
 import treasureHunt.model.Hunt;
 import treasureHunt.model.Treasure;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 
@@ -26,6 +29,9 @@ public class DatabaseExternalManager extends Thread{
 	public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
 	public int action;
 	public String nom;
+	public Handler hand;
+	private boolean retourDEM;
+	
 	public DatabaseExternalManager(){
 
 	}
@@ -37,6 +43,14 @@ public class DatabaseExternalManager extends Thread{
 		case 1:
 			String retour=importDataToAndroid(nom);
 			System.out.println(retour);
+			break;
+		case 2:
+			setRetourDEM(treasureNameAlreadyExist(nom));
+			Message msg=new Message();
+			Bundle data=new Bundle();
+			data.putBoolean("retour", treasureNameAlreadyExist(nom));
+			msg.setData(data);
+			hand.sendMessage(msg);
 			break;
 		}
 	}
@@ -187,5 +201,13 @@ public class DatabaseExternalManager extends Thread{
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}
 		return retour;
+	}
+
+	public boolean isRetourDEM() {
+		return retourDEM;
+	}
+
+	public void setRetourDEM(boolean retourDEM) {
+		this.retourDEM = retourDEM;
 	}
 }
