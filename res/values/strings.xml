@@ -36,6 +36,7 @@
 	<string name="modify_treasure">Modifiez/Continuez votre chasse aux trésors</string>
 	<string name="local">Vos créations</string>
 	<string name="imported">Vos participations</string>
+	<string name="distance">Distance</string>
 	<!-- Strings pour la BD -->
 	<!-- Table Treasure -->
 	<string name="nomChasse">Nom de la chasse aux trésors</string>

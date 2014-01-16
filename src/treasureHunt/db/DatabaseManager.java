@@ -119,9 +119,23 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	 * @param db La BD à modifier
 	 * @param numIndice Le numéro d'indice à supprimer
 	 */
-	public void deleteAfterTreasureFound(SQLiteDatabase db,int numIndice){
-		String selection=HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+" = "+numIndice;
-		db.delete(HuntEntry.TABLE_NAME, selection, null);
+	public void deleteAfterTreasureFound(SQLiteDatabase db,int numIndice,String nomChasse){
+		String selection=HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+" = ? AND "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ? ";
+		String[] selectionArgs={String.valueOf(numIndice),nomChasse};
+		db.delete(HuntEntry.TABLE_NAME, selection, selectionArgs);
+	}
+	
+	public Hunt lastClueToSolve(SQLiteDatabase db,int numIndice,String nomChasse){
+		String[] selectionArgs={String.valueOf(numIndice),nomChasse};
+		Cursor curs=db.rawQuery("SELECT "+HuntEntry.COLUMN_NAME_CLUE+COMMA_SEP+HuntEntry.COLUMN_NAME_LAT+COMMA_SEP+HuntEntry.COLUMN_NAME_LONG+
+				" FROM "+HuntEntry.TABLE_NAME+" WHERE "+
+				HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+" = ? AND "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ? ", selectionArgs);
+		curs.moveToFirst();
+		Hunt h=new Hunt();
+		h.setIndice(curs.getString(curs.getColumnIndex(HuntEntry.COLUMN_NAME_CLUE)));
+		h.setLatitude(curs.getDouble(curs.getColumnIndex(HuntEntry.COLUMN_NAME_LAT)));
+		h.setLongitude(curs.getDouble(curs.getColumnIndex(HuntEntry.COLUMN_NAME_LONG)));
+		return h;
 	}
 	
 	/**

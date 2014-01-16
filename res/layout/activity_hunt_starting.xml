@@ -21,10 +21,20 @@
         android:layout_below="@+id/clue"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="34dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="@string/clue_given"
         android:editable="false"
-        android:focusable="false" />
+        android:ems="10"
+        android:focusable="false"
+        android:inputType="textMultiLine"
+        android:text="@string/clue_given" />
+
+    <EditText
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/clue_given"
+        android:layout_below="@+id/clue_given"
+        android:layout_marginTop="114dp"
+        android:ems="10"
+        android:text="@string/distance" />
 
 </RelativeLayout>
