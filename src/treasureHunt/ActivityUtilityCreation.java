@@ -75,7 +75,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		//Lorsque la source (GSP ou réseau GSM) est désactivé
 		//...on affiche un Toast pour le signaler à l'utilisateur
 		Toast.makeText(this,
-				String.format("La source \"%s\" a �t� d�sactiv�e", provider),
+				String.format("La source \"%s\" a été désactivée", provider),
 				Toast.LENGTH_LONG).show();
 		//... et on spécifie au service que l'on ne souhaite plus avoir de mise à jour
 		//TreasureHunt.myPosition.removeUpdates(this);
@@ -89,7 +89,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, this);
 		setProgressBarIndeterminateVisibility(false);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Trouv� !");
+		builder.setTitle("Trouvé !");
 		builder.setMessage("HAHAHAHAH");
 		builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
@@ -115,7 +115,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 			DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
 
 			Toast.makeText(this,
-					String.format("Indice n� \"%s\" ajout� !", numIndice),
+					String.format("Indice N° \"%s\" ajouté !", numIndice),
 					Toast.LENGTH_LONG).show();
 		}else{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
@@ -133,11 +133,7 @@ public class ActivityUtilityCreation extends Activity implements LocationListene
 	}
 
 	public void endCourse(View v){
-		String lati=mTxtViewlat.getText().toString();
-		String longi=mTxtViewlong.getText().toString();
-		Hunt hunt=new Hunt(nomChasse,numIndice,Double.parseDouble(longi),Double.parseDouble(lati));
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
-		DatabaseManager.getInstance(getApplicationContext()).insertIntoHunt(db, hunt);
 		//TODO export des données à effectuer
 		//......................................
 		JSONObject json=DatabaseManager.getInstance(getApplicationContext()).retreiveInformation(db, nomChasse);

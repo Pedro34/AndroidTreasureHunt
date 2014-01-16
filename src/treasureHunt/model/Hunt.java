@@ -77,7 +77,7 @@ public class Hunt {
 	}
 	
 	public String toString(){
-		return "{"+doubleQuote+"nom"+doubleQuote+":"+doubleQuote+nomChasse+doubleQuote+
+		return "{"+doubleQuote+"nomChasse"+doubleQuote+":"+doubleQuote+nomChasse+doubleQuote+
 				","+doubleQuote+"numIndice"+doubleQuote+":"+doubleQuote+numIndice+doubleQuote+
 				","+doubleQuote+"indice"+doubleQuote+":"+doubleQuote+indice+doubleQuote+","+
 				doubleQuote+"longitude"+doubleQuote+":"+doubleQuote+longitude+doubleQuote+","+

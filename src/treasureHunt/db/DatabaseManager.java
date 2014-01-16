@@ -210,7 +210,12 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		String date=curs.getString(1);
 		try{
 			jsonTreasure.put("nomChasse", nomChasse);
+			String annee = date.substring(6,date.length());
+			String mois = date.substring(3,5);
+			String jour = date.substring(0,2);
+			date = annee+"-"+mois+"-"+jour; // Pour compatibilité avec le format de la BD
 			jsonTreasure.put("dateOrganisation", date);
+			
 		}catch(Exception e){}
 		Cursor curs2=db.rawQuery("SELECT "+HuntEntry.COLUMN_NAME_HUNT_NAME+COMMA_SEP+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+
 				COMMA_SEP+HuntEntry.COLUMN_NAME_CLUE+COMMA_SEP+HuntEntry.COLUMN_NAME_LONG+COMMA_SEP+HuntEntry.COLUMN_NAME_LAT+
