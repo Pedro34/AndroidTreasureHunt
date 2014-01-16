@@ -13,6 +13,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.json.*;
 
@@ -66,15 +67,16 @@ public class DatabaseExternalManager extends Thread{
 		try{
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(strURLInput);
-			httppost.setHeader("Content-type", "application/json");
+			//httppost.setHeader("Content-type", "application/json");
+			httppost.setHeader("json", obj.toString());
 
-			StringEntity se = new StringEntity(obj.toString()); 
-			se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			//StringEntity se = new StringEntity(obj.toString()); 
+			//se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 			
 			//ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			//nameValuePairs.add(new BasicNameValuePair("exportDataFromAndroid",se.toString()));
 			
-			httppost.setEntity(se); 
+			httppost.setEntity(new ByteArrayEntity(obj.toString().getBytes("UTF8"))); 
 
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
@@ -83,7 +85,7 @@ public class DatabaseExternalManager extends Thread{
 
 		}
 
-		// Convertion de la requête en string
+		// Conversion de la requête en string
 		try{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is,"iso-8859-1"),8);
 			StringBuilder sb = new StringBuilder();

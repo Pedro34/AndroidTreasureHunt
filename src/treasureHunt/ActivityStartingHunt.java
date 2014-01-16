@@ -22,6 +22,7 @@ public class ActivityStartingHunt extends Activity {
 		Toast.makeText(this,
 				String.format("La chasse \"%s\" va débuter !", huntName),
 				Toast.LENGTH_LONG).show();
+		
 		//TODO Mise en place de la BDD ou pas
 	}
 

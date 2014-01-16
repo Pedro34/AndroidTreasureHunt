@@ -205,33 +205,38 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		Cursor curs=db.rawQuery("SELECT  "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+","+TreasureEntry.COLUMN_NAME_TREASURE_DATE
 				+ " FROM "+TreasureEntry.TABLE_NAME
 				+ " WHERE "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ", selectionArgs);
+		curs.moveToFirst();
 		String nomChasse=curs.getString(0);
 		String date=curs.getString(1);
 		try{
 			jsonTreasure.put("nomChasse", nomChasse);
 			jsonTreasure.put("dateOrganisation", date);
 		}catch(Exception e){}
-		
-		Cursor curs2=db.rawQuery("SELECT * FROM "+HuntEntry.TABLE_NAME
+		Cursor curs2=db.rawQuery("SELECT "+HuntEntry.COLUMN_NAME_HUNT_NAME+COMMA_SEP+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+
+				COMMA_SEP+HuntEntry.COLUMN_NAME_CLUE+COMMA_SEP+HuntEntry.COLUMN_NAME_LONG+COMMA_SEP+HuntEntry.COLUMN_NAME_LAT+
+		" FROM "+HuntEntry.TABLE_NAME
 				+" WHERE "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ?", selectionArgs);
 		ArrayList<Hunt> huntList=new ArrayList<Hunt>();
-		while (curs.moveToNext()){
+		System.out.println("COMPTAGE :"+curs2.getCount());
+		while (curs2.moveToNext()){
 			String nomH=curs2.getString(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_HUNT_NAME));
 			int numIndice=curs2.getInt(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM));
 			String indice=curs2.getString(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_CLUE));
 			double longit=curs2.getDouble(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_LONG));
 			double latit=curs2.getDouble(curs2.getColumnIndex(HuntEntry.COLUMN_NAME_LAT));
-			
+			System.out.println("HUNT : "+indice+" "+nomH);
 			
 			Hunt h=new Hunt(nomH, numIndice, indice, longit, latit);
 			huntList.add(h);
+			
 		}		
 		
 		String huntSend="";
 		for (int i=0;i<huntList.size();i++){
 			huntSend+=huntList.get(i).toString()+",";
+			//System.out.println("HUNT : "+huntSend);
 		}
-		huntSend=huntSend.substring(0, huntSend.length());
+		huntSend=huntSend.substring(0, huntSend.length()-1);
 		huntSend="["+huntSend+"]";
 		JSONObject json=new JSONObject();
 		try{

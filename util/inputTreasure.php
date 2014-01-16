@@ -14,17 +14,20 @@
         }
         
         function input(){
-            $input=json_decode($_REQUEST['exportDataFromAndroid'],true);
+		$json=file_get_contents('php://input');
+            //$input=json_decode($_REQUEST['exportDataFromAndroid'],true);
+			$input=json_decode($json);
             $output;
                 
             if(!$input){
                 print("Le JSON n'est pas parsable");
                 $output=array("retour"=>"fail");
-            }
+            }else{
+			print_r($input);
             $treasureTab=$input['treasure'];
             $huntTab=$input['hunt'];
             $nomTreasure=$treasureTab['nomChasse'];
-            $dateTreasure=$treasureTab['dateOrganisation'];//TODO: devra certainement avoir besoinde transformation... 
+            $dateTreasure=$treasureTab['dateOrganisation'];//TODO: devra certainement avoir besoin de transformation... 
             //echo $treasureTab." ".$huntTab;
             $sqlTreasure=mysql_query("INSERT INTO Treasure (Nom,Date) VALUES('".$nomTreasure."','".$dateTreasure."')",$this->dm->database_link);
             for ($i=0;$i<count($huntTab);$i++){
@@ -40,6 +43,7 @@
             }
             $this->dm->close();
             $output=array("retour"=>"success");
+			}
             print(json_encode($output));    
         }
     }  

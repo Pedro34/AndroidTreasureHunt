@@ -71,13 +71,22 @@ public class ActivityCreation extends Activity implements OnClickListener{
 		if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
 			SQLiteDatabase db=DatabaseManager.getInstance(null).getWritableDatabase();
 			if (DatabaseManager.getInstance(null).treasureNameNotAlreadyExistLocally(db, new_hunt.getText().toString())){
-
+				/*Boolean retour = false;
 				DatabaseExternalManager dem=new DatabaseExternalManager();
 				dem.action=2;
-				dem.nom=new_hunt.getText().toString();
-				Handler hand= new Handler();
-				dem.hand=hand;
+				//dem.nom=new_hunt.getText().toString();
+				//Handler hand= new Handler();
+				//dem.hand=hand;
 				dem.start();
+				Message messageToThread = new Message();
+				Bundle messageData = new Bundle();
+				messageToThread.what = 0;
+				messageData.putBoolean("retour", retour);
+				messageData.putString("nom",new_hunt.getText().toString());
+				messageToThread.setData(messageData);*/
+
+				// sending message to MyThread
+				//dem.getHandler().sendMessage(messageToThread);
 
 				/*Message msg;
 				try {
@@ -89,8 +98,8 @@ public class ActivityCreation extends Activity implements OnClickListener{
 				Bundle b=msg.getData();
 				boolean recuper=b.getBoolean("retour");
 				boolean recuper=dem.isRetourDEM();
-				System.out.println("Dans l'activité: "+recuper);
-				if (!recuper){*/
+				System.out.println("Dans l'activité: "+recuper);*/
+				//if (!recuper){
 					Intent intent;
 					intent = new Intent(this, ActivityUtilityCreation.class);
 					intent.putExtra("nomChasse", new_hunt.getText().toString());
