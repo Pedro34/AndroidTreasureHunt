@@ -37,6 +37,7 @@ public class ActivityHuntToParticipate extends Activity {
 			DatabaseExternalManager dem = new DatabaseExternalManager();
 			dem.action=1;//correspond à l'import
 			dem.nom=hunt_name.getText().toString();
+			dem.context=getApplicationContext();
 			dem.start();
 			//String retour = dem.importDataToAndroid(hunt_name.getText().toString());
 			String name = hunt_name.getText().toString();
