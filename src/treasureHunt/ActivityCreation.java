@@ -78,7 +78,6 @@ public class ActivityCreation extends Activity implements OnClickListener{
 				dem.start();
 				
 				try {
-					System.out.println("Tentative d'aquisition du mutex");
 					Thread.sleep(1);
 					mut.acquire();
 				} catch (InterruptedException e) {

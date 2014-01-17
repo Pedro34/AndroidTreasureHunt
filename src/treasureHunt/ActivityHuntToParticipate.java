@@ -48,7 +48,7 @@ public class ActivityHuntToParticipate extends Activity {
 				String name = hunt_name.getText().toString();
 				Intent intent = new Intent(this, ActivityStartingHunt.class);
 				intent.putExtra("nomChasse",name);
-				intent.putExtra("numIndice", "1");
+				intent.putExtra("numIndice", String.valueOf(1));
 				startActivity(intent);
 			}else{
 				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);

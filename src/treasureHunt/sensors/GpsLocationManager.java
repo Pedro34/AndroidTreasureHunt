@@ -49,11 +49,11 @@ public class GpsLocationManager implements LocationListener {
 		if(ActivityStartingHunt.distance != null){
 			ActivityStartingHunt.latitude=location.getLatitude();
 			ActivityStartingHunt.longitude=location.getLongitude();
-			System.out.println("Ma position: "+location.getLatitude()+" "+location.getLongitude()+" La position du trésor: "+ActivityStartingHunt.treasureLocation.getLatitude()
-					+" "+ActivityStartingHunt.treasureLocation.getLongitude());
+			/*System.out.println("Ma position: "+location.getLatitude()+" "+location.getLongitude()+" La position du trésor: "+ActivityStartingHunt.treasureLocation.getLatitude()
+					+" "+ActivityStartingHunt.treasureLocation.getLongitude());*/
 			float dist = ActivityStartingHunt.treasureLocation.distanceTo(location);
 			System.out.println("Distance : "+dist);
-			if(dist<=20){
+			if(dist<=40){
 				Toast.makeText(context,
 						String.format("Vous avez trouvé le trésor !"),
 						Toast.LENGTH_LONG).show();
@@ -61,7 +61,6 @@ public class GpsLocationManager implements LocationListener {
 				int numIndice=DatabaseManager.getInstance(context).retreiveFirstClueToSolve(db, nomChasse);
 				DatabaseManager.getInstance(context).deleteAfterTreasureFound(db, numIndice, nomChasse);
 				numIndice=DatabaseManager.getInstance(context).retreiveFirstClueToSolve(db, nomChasse);
-				System.out.println("Numéro d'indice: "+numIndice);
 				if(numIndice==-1){
 					DatabaseManager.getInstance(context).deleteAfterExportTreasure(db, nomChasse);
 					Toast.makeText(context,
@@ -69,12 +68,14 @@ public class GpsLocationManager implements LocationListener {
 							Toast.LENGTH_LONG).show();
 					Intent intent=new Intent(context,TreasureHunt.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					context.startActivity(intent);
 					locationManager.removeUpdates(this);
+					context.startActivity(intent);
 				}else{
 					Intent intent=new Intent(context,ActivityStartingHunt.class);
 					intent.putExtra("nomChasse", nomChasse);
-					intent.putExtra("numIndice",numIndice);
+					intent.putExtra("numIndice",String.valueOf(numIndice));
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					locationManager.removeUpdates(this);
 					context.startActivity(intent);
 				}
 			}
@@ -88,9 +89,6 @@ public class GpsLocationManager implements LocationListener {
 			}else{
 				ActivityStartingHunt.degree.setText(Float.toString(location.bearingTo(ActivityStartingHunt.treasureLocation))+" °");
 			}
-
-			/*System.out.println("Ma position: "+ActivityStartingHunt.myPosition.getLatitude()+" "+ActivityStartingHunt.myPosition.getLongitude()+" La position du trésor: "+ActivityStartingHunt.treasureLocation.getLatitude()
-					+" "+ActivityStartingHunt.treasureLocation.getLongitude());*/
 		}
 	}
 

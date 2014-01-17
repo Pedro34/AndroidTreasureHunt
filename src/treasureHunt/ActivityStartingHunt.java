@@ -69,7 +69,7 @@ public class ActivityStartingHunt extends Activity {
 	
 	public void currentPosition(){
 		setProgressBarIndeterminateVisibility(true);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, gpsLocationListener );
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, gpsLocationListener );
 		setProgressBarIndeterminateVisibility(false);
 		indice.setText(huntInformations.getIndice());
 		treasureLocation.setLatitude(huntInformations.getLatitude());

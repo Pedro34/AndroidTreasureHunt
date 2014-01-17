@@ -58,19 +58,12 @@ public class DatabaseExternalManager extends Thread{
 			try {
 				System.out.println("Libération du mutex");
 				ActivityCreation.mut.release();
-				System.out.println("Tentative d'aquisition du mutex thread");
 				ActivityCreation.mut.acquire();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			/*Message msg=hand.obtainMessage();
-			Bundle data=new Bundle();
-			data.putBoolean("retour", treasureNameAlreadyExist(nom));
-			msg.setData(data);
-			hand.sendMessage(msg);*/
 			retourDEM=treasureNameAlreadyExist(nom);
-			System.out.println("Valeur dans thread : "+treasureNameAlreadyExist(nom));
 			ActivityCreation.mut.release();
 			break;
 		case 3:
