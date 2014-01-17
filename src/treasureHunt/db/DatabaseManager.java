@@ -123,8 +123,18 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		String selection=HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+" = ? AND "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ? ";
 		String[] selectionArgs={String.valueOf(numIndice),nomChasse};
 		db.delete(HuntEntry.TABLE_NAME, selection, selectionArgs);
+		//TODO vérifier si nombre d'indice restant est > 0 si pas le cas alors dire you win
+		//supprimer la chasse dans la table Treasure
 	}
 	
+	/**
+	 * 
+	 * @param db La base de données à interroger
+	 * @param numIndice Le numéro de l'indice
+	 * @param nomChasse Le nom de la chasse aux trésors
+	 * @return un objet {@link Hunt} qui permettra de comparer par la suite notre position 
+	 * et la position du trésor mise dans Hunt
+	 */
 	public Hunt lastClueToSolve(SQLiteDatabase db,int numIndice,String nomChasse){
 		String[] selectionArgs={String.valueOf(numIndice),nomChasse};
 		Cursor curs=db.rawQuery("SELECT "+HuntEntry.COLUMN_NAME_CLUE+COMMA_SEP+HuntEntry.COLUMN_NAME_LAT+COMMA_SEP+HuntEntry.COLUMN_NAME_LONG+
@@ -136,6 +146,19 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		h.setLatitude(curs.getDouble(curs.getColumnIndex(HuntEntry.COLUMN_NAME_LAT)));
 		h.setLongitude(curs.getDouble(curs.getColumnIndex(HuntEntry.COLUMN_NAME_LONG)));
 		return h;
+	}
+	
+	public int retreiveFirstClueToSolve(SQLiteDatabase db,String nomChasse){
+		String[] selectionArgs={nomChasse};
+		Cursor curs=db.rawQuery("SELECT "+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+
+				" FROM "+HuntEntry.TABLE_NAME
+				+" WHERE "+HuntEntry.COLUMN_NAME_HUNT_NAME+" = ? ", selectionArgs);
+		if (curs.getCount()==0){
+			return -1;
+		}else{
+			curs.moveToFirst();
+			return curs.getInt(curs.getColumnIndex(HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM));
+		}
 	}
 	
 	/**
@@ -163,14 +186,31 @@ public class DatabaseManager extends SQLiteOpenHelper{
 	public boolean treasureNameNotAlreadyExistLocally(SQLiteDatabase db,String nom){
 		SQLiteQueryBuilder _QB = new SQLiteQueryBuilder();
 		String[] projection = {TreasureEntry.COLUMN_NAME_TREASURE_NAME};
-		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? ";
-		String[] selectionArgs={nom};
+		String selection=TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? AND "+TreasureEntry.COLUMN_NAME_TREASURE_MODE+" = ? ";
+		String[] selectionArgs={nom,"local"};
 		
 		_QB.setTables(TreasureEntry.TABLE_NAME);
 		Cursor curseur=_QB.query(db,projection,selection,selectionArgs,null,null,null);
 		int rows=curseur.getCount();
 		curseur.close();
 		return rows==0;
+	}
+	
+	/**
+	 * @param db La BD à interroger
+	 * @param nom Le nom de la chasse au trésor
+	 * @return Vrai si le nom de la chasse au trésor a déjà été importé. Faux sinon.
+	 */
+	public boolean treasureNameAlreadyImported(SQLiteDatabase db,String nom){
+		String[] selectionArgs={nom,"imported"};
+		Cursor curs=db.rawQuery("SELECT "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+
+				" FROM "+TreasureEntry.TABLE_NAME+
+				" WHERE "+TreasureEntry.COLUMN_NAME_TREASURE_NAME+" = ? "
+				+"AND "+TreasureEntry.COLUMN_NAME_TREASURE_MODE+" = ? ", selectionArgs);
+		if(curs.getCount()==0){
+			return false;
+		}
+		return true;
 	}
 	
 	/**

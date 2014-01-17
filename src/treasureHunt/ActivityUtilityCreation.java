@@ -125,6 +125,8 @@ public class ActivityUtilityCreation extends Activity {
 		dem.start();
 		//..............................................
 		//Après l'export on enlève de la BD
+		locationManager.removeUpdates(gpsLocationListener);
+		
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportTreasure(db, nomChasse);
 		DatabaseManager.getInstance(getApplicationContext()).deleteAfterExportHunt(db, nomChasse);
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
@@ -145,9 +147,10 @@ public class ActivityUtilityCreation extends Activity {
 
 	@Override
 	public void onBackPressed(){
+		locationManager.removeUpdates(gpsLocationListener);
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 		localBuilder
-		.setMessage("Vous pourrez terminer votre cr�ation via la gestion de vos chasses.")
+		.setMessage("Vous pourrez terminer votre création via la gestion de vos chasses.")
 		.setCancelable(false)
 		.setNeutralButton("Ok",
 				new DialogInterface.OnClickListener() {

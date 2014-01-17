@@ -31,10 +31,36 @@
         android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/clue_given"
-        android:layout_below="@+id/clue_given"
-        android:layout_marginTop="114dp"
+        android:layout_alignRight="@+id/distanceToTreasure"
+        android:layout_below="@+id/distanceToTreasure"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:text="@string/distance" />
+        android:focusable="false"
+        android:editable="false"
+        android:text="@string/distance" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/distanceToTreasure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/clue_given"
+        android:layout_below="@+id/clue_given"
+        android:layout_marginTop="19dp"
+        android:text="Distance te séparant du trésor" />
+
+    <EditText
+        android:id="@+id/degree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/distance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
+        android:ems="10"
+        android:focusable="false"
+        android:editable="false"
+        android:text="Degré..." />
 
 </RelativeLayout>

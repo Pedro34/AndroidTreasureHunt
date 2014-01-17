@@ -39,7 +39,7 @@ public class ActivityManageHunts extends Activity {
 		setContentView(R.layout.activity_manage_hunts);
 		
 		intentLocal=new Intent(this,ActivityUtilityCreation.class);
-		intentImported=new Intent(this,ActivityParticipation.class);
+		intentImported=new Intent(this,ActivityStartingHunt.class);
 		
 		mode=getIntent();
 		modeString=mode.getStringExtra("mode");
@@ -165,7 +165,7 @@ public class ActivityManageHunts extends Activity {
 		String treasureName=cursor.getString(1);
 		intentImported.putExtra("nomChasse",treasureName);
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
-		int max=DatabaseManager.getInstance(null).numIndiceMax(db, treasureName);
+		int max=DatabaseManager.getInstance(getApplicationContext()).retreiveFirstClueToSolve(db, treasureName);
 		intentImported.putExtra("numIndice", Integer.toString(max));//on donne l'indice sur lequel l'utilisateur
 		//s'est arrété
 	}

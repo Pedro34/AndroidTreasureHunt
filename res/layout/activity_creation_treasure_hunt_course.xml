@@ -46,6 +46,8 @@
         android:layout_marginTop="23dp"
         android:background="#677179"
         android:ems="10"
+        android:focusable="false"
+        android:editable="false"
         android:inputType="numberDecimal"
         android:text="@string/longitude"
         android:textColor="#E21313" >
@@ -71,6 +73,8 @@
         android:layout_marginTop="16dp"
         android:background="#677179"
         android:ems="10"
+        android:focusable="false"
+        android:editable="false"
         android:inputType="numberDecimal"
         android:text="@string/latitude"
         android:textColor="#E21313" />
