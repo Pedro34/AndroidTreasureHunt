@@ -17,6 +17,7 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.json.*;
 
+import treasureHunt.ActivityCreation;
 import treasureHunt.model.Hunt;
 import treasureHunt.model.Treasure;
 import android.content.Context;
@@ -40,7 +41,11 @@ public class DatabaseExternalManager extends Thread{
 	public DatabaseExternalManager(){
 
 	}
-
+	
+	public DatabaseExternalManager(Handler hand){
+		this.hand = hand;
+	}
+	
 	@Override
 	public void run(){
 		super.run();
@@ -50,12 +55,23 @@ public class DatabaseExternalManager extends Thread{
 			System.out.println(retour);
 			break;
 		case 2:
-			setRetourDEM(treasureNameAlreadyExist(nom));
-			Message msg=new Message();
+			try {
+				System.out.println("Libération du mutex");
+				ActivityCreation.mut.release();
+				System.out.println("Tentative d'aquisition du mutex thread");
+				ActivityCreation.mut.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*Message msg=hand.obtainMessage();
 			Bundle data=new Bundle();
 			data.putBoolean("retour", treasureNameAlreadyExist(nom));
 			msg.setData(data);
-			hand.sendMessage(msg);
+			hand.sendMessage(msg);*/
+			retourDEM=treasureNameAlreadyExist(nom);
+			System.out.println("Valeur dans thread : "+treasureNameAlreadyExist(nom));
+			ActivityCreation.mut.release();
 			break;
 		case 3:
 			sendDataToServer(toSend);

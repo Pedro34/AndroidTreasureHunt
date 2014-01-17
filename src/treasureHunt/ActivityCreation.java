@@ -6,10 +6,10 @@ import treasureHunt.model.Treasure;
 
 import com.example.treasurehunt2.R;
 
+import java.util.concurrent.*;
+
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,22 +24,23 @@ import android.widget.EditText;
 
 public class ActivityCreation extends Activity implements OnClickListener{
 
-	Button validate_hunt;
-	EditText new_hunt;
-	EditText date_hunt;
-	WifiManager wifi;
-	//boolean recuper;
-
+	public Button validate_hunt;
+	public EditText new_hunt;
+	public EditText date_hunt;
+	public WifiManager wifi;
+	boolean recuper;
+	public static Semaphore mut=new Semaphore(0);
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_treasure_hunt_creation);
-	    wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-	    if(!wifi.isWifiEnabled())
-	    {
-	    	AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		if(!wifi.isWifiEnabled())
+		{
+			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
-			.setMessage("Le wifi est désactivé, mais celui-ci est nécessaire pour continuer.")
+			.setMessage("Le wifi est dï¿½sactivï¿½, mais celui-ci est nï¿½cessaire pour continuer.")
 			.setCancelable(false)
 			.setNeutralButton("Activer le wifi",
 					new DialogInterface.OnClickListener() {
@@ -49,7 +50,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 			}
 					);
 			localBuilder.create().show();
-	    }
+		}
 		validate_hunt = (Button)findViewById(R.id.validate_button_creation_hunt);
 		validate_hunt.setOnClickListener(this);
 		new_hunt = (EditText)findViewById(R.id.name_choosen);
@@ -71,44 +72,31 @@ public class ActivityCreation extends Activity implements OnClickListener{
 		if(new_hunt.getText().length()!=0 && recup.matches("[0-9]{2}/[0-9]{2}/[2-9][0-9]{3}")){
 			SQLiteDatabase db=DatabaseManager.getInstance(null).getWritableDatabase();
 			if (DatabaseManager.getInstance(null).treasureNameNotAlreadyExistLocally(db, new_hunt.getText().toString())){
-				/*Boolean retour = false;
 				DatabaseExternalManager dem=new DatabaseExternalManager();
 				dem.action=2;
-				//dem.nom=new_hunt.getText().toString();
-				//Handler hand= new Handler();
-				//dem.hand=hand;
+				dem.nom=new_hunt.getText().toString();
 				dem.start();
-				Message messageToThread = new Message();
-				Bundle messageData = new Bundle();
-				messageToThread.what = 0;
-				messageData.putBoolean("retour", retour);
-				messageData.putString("nom",new_hunt.getText().toString());
-				messageToThread.setData(messageData);*/
-
-				// sending message to MyThread
-				//dem.getHandler().sendMessage(messageToThread);
-
-				/*Message msg;
+				
 				try {
-					wait(1000);
+					System.out.println("Tentative d'aquisition du mutex");
+					Thread.sleep(1);
+					mut.acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Bundle b=msg.getData();
-				boolean recuper=b.getBoolean("retour");
-				boolean recuper=dem.isRetourDEM();
-				System.out.println("Dans l'activité: "+recuper);*/
-				//if (!recuper){
-					Intent intent;
-					intent = new Intent(this, ActivityUtilityCreation.class);
-					intent.putExtra("nomChasse", new_hunt.getText().toString());
-					intent.putExtra("numIndice", "0");
+				recuper=dem.isRetourDEM();
+				System.out.println("Valeur dans activitÃ© : "+recuper);
+				if (!recuper){
+				Intent intent;
+				intent = new Intent(this, ActivityUtilityCreation.class);
+				intent.putExtra("nomChasse", new_hunt.getText().toString());
+				intent.putExtra("numIndice", "0");
 
-					Treasure treasure=new Treasure(new_hunt.getText().toString(), recup,"local");
-					DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
-					startActivity(intent);
-				/*}else{
+				Treasure treasure=new Treasure(new_hunt.getText().toString(), recup,"local");
+				DatabaseManager.getInstance(getApplicationContext()).insertIntoTreasure(db, treasure);
+				startActivity(intent);
+				}else{
 					AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 					localBuilder
 					.setMessage("DÃ©solÃ© mais un autre utilisateur a dÃ©jÃ  crÃ©Ã© une chasse au trÃ©sor avec ce nom.")
@@ -120,11 +108,11 @@ public class ActivityCreation extends Activity implements OnClickListener{
 					}
 							);
 					localBuilder.create().show();
-				}*/
+				}
 			}else{
 				AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 				localBuilder
-				.setMessage("Désolé mais vous avez déjà  créer une chasse au trésor avec ce même nom.")
+				.setMessage("DÃ©solÃ© mais vous avez dÃ©jÃ  crÃ©Ã© une chasse avec ce mÃªme nom.")
 				.setCancelable(false)
 				.setNeutralButton("Ok",
 						new DialogInterface.OnClickListener() {
