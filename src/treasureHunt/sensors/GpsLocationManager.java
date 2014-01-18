@@ -84,11 +84,28 @@ public class GpsLocationManager implements LocationListener {
 			}else{
 				ActivityStartingHunt.distance.setText(Float.toString(dist)+" m");
 			}
-			if(location.bearingTo(ActivityStartingHunt.treasureLocation)<0){
-				ActivityStartingHunt.degree.setText(Float.toString(location.bearingTo(ActivityStartingHunt.treasureLocation)+360)+" °");
+			
+			Intent intent =new Intent(context,OrientationManager.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
+			
+			float azimuth=OrientationManager.getAzimuth();//angle de l'utilisateur par rapport au Nord
+			float treasureDirection=location.bearingTo(ActivityStartingHunt.treasureLocation);//angle du trésor par rapport au Nord
+			if(treasureDirection<0){
+				treasureDirection+=360;
+				if (azimuth<=treasureDirection){
+					ActivityStartingHunt.degree.setText(Float.toString(treasureDirection-azimuth)+" °");
+				}else{
+					ActivityStartingHunt.degree.setText(Float.toString(-(azimuth-treasureDirection))+" °");
+				}
 			}else{
-				ActivityStartingHunt.degree.setText(Float.toString(location.bearingTo(ActivityStartingHunt.treasureLocation))+" °");
+				if (azimuth<=treasureDirection){
+					ActivityStartingHunt.degree.setText(Float.toString(treasureDirection-azimuth)+" °");
+				}else{
+					ActivityStartingHunt.degree.setText(Float.toString(-(azimuth-treasureDirection))+" °");
+				}
 			}
+			
 		}
 	}
 
