@@ -18,6 +18,7 @@ import org.apache.http.entity.StringEntity;
 import org.json.*;
 
 import treasureHunt.ActivityCreation;
+import treasureHunt.ActivityHuntToParticipate;
 import treasureHunt.model.Hunt;
 import treasureHunt.model.Treasure;
 import android.content.Context;
@@ -32,37 +33,52 @@ public class DatabaseExternalManager extends Thread{
 	// MONTPELLIER
 	/*public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
 	public static final String strURLInput = "http://192.168.1.19/TreasureHunt/inputTreasure.php";*/
-	
+
 	//Maison
 	public static final String strURL = "http://192.168.1.183/TreasureHunt/treasure.php";
 	public static final String strURLInput = "http://192.168.1.183/TreasureHunt/inputTreasure.php";
-	
+
 	public int action;
 	public String nom;
 	public Handler hand;
 	private boolean retourDEM;
 	public JSONObject toSend;
 	public Context context;
+	private String retourImport;
+
+	public String getRetourImport() {
+		return retourImport;
+	}
+
+	public void setRetourImport(String retourImport) {
+		this.retourImport = retourImport;
+	}
 
 	public DatabaseExternalManager(){
 
 	}
-	
+
 	public DatabaseExternalManager(Handler hand){
 		this.hand = hand;
 	}
-	
+
 	@Override
 	public void run(){
 		super.run();
 		switch(action){
 		case 1:
-			String retour=importDataToAndroid(nom);
-			System.out.println(retour);
+			try {
+				ActivityHuntToParticipate.mut.release();
+				ActivityHuntToParticipate.mut.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			retourImport=importDataToAndroid(nom);
+			ActivityHuntToParticipate.mut.release();
 			break;
 		case 2:
 			try {
-				System.out.println("Libération du mutex");
 				ActivityCreation.mut.release();
 				ActivityCreation.mut.acquire();
 			} catch (InterruptedException e) {
@@ -186,12 +202,12 @@ public class DatabaseExternalManager extends Thread{
 
 	public String importDataToAndroid(String nom){
 		JSONObject jArray=getServerData("verifyNameAndDateBeforeParticipating", nom);
-		String retour="";
+		retourImport="";
 		Treasure treasureObj=new Treasure();
 		Hunt huntObj=new Hunt();
 		try{
 			try{
-				retour=jArray.getString("retour");
+				retourImport=jArray.getString("retour");
 			}finally{
 				JSONObject treasure=jArray.getJSONObject("treasure");//correspond à la table Treasure
 				JSONArray hunt=jArray.getJSONArray("hunt");//correspond à la table Hunt
@@ -209,13 +225,14 @@ public class DatabaseExternalManager extends Thread{
 					huntObj.setLatitude(json_data_hunt.getDouble("latitude"));
 					DatabaseManager.getInstance(context).insertIntoHunt(db, huntObj);
 				}
-				retour="Vous venez d'importer la chasse aux trésors: "+nom;
+				retourImport="sucess";
+
 			}
 
 		}catch(JSONException e){
 			Log.e("log_tag", "Error parsing data " + e.toString());
 		}
-		return retour;
+		return retourImport;
 	}
 
 	public boolean isRetourDEM() {

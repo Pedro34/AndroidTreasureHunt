@@ -20,7 +20,9 @@
 			 */
 			$output;
 			if (isset($_REQUEST['treasureNameAlreadyExist'])){
-				if (mysql_query("SELECT nom FROM Treasure WHERE nom='".$_REQUEST['treasureNameAlreadyExist']."'",$this->dm->database_link)){
+			$result = mysql_query("SELECT nom FROM Treasure WHERE nom='".$_REQUEST['treasureNameAlreadyExist']."'",$this->dm->database_link);
+			$reponse = mysql_num_rows($result);
+				if ($reponse >= 1){
 					$output=array("retour"=>true);
 				}else{
 					$output=array("retour"=>false);
@@ -48,7 +50,7 @@
                 $nomTreasure=$treasureTab['nomChasse'];
                 $dateTreasure=$treasureTab['dateOrganisation'];//TODO: devra certainement avoir besoinde transformation... 
                 //echo $treasureTab." ".$huntTab;
-                $sqlTreasure=mysql_query("INSERT INTO Treasure (Nom,Date) VALUES('".$nomTreasure."','".$dateTreasure."')");
+                $sqlTreasure=mysql_query("INSERT INTO Treasure (Nom,Date) VALUES('".$nomTreasure."','".$dateTreasure."')", $this->dm->database_link);
                 for ($i=0;$i<count($huntTab);$i++){
                     /*$huntTab['nom'];
                     $huntTab['numIndice'];
@@ -57,7 +59,7 @@
                     $huntTab['latitude'];*/
                     $sqlHunt=mysql_query("INSERT INTO Hunt (Nom,NumIndice,Indice,Longitude,Latitude) VALUES (
                     '".$huntTab['nomChasse']."',".$huntTab['numIndice'].",'".$huntTab['indice']."',
-                    ".$huntTab['longitude'].",".$huntTab['latitude']."");
+                    ".$huntTab['longitude'].",".$huntTab['latitude']."", $this->dm->database_link);
                 }
                 $output=array("retour"=>"success");
                 print(json_encode($output));   
@@ -72,7 +74,7 @@
 			if (isset($_REQUEST['verifyNameAndDateBeforeParticipating'])){
 			    $output;
 				$sql=mysql_query("SELECT date FROM Treasure WHERE nom='".$_REQUEST['verifyNameAndDateBeforeParticipating']."'",$this->dm->database_link);
-				if ($sql){
+				if (mysql_num_rows($sql)>=1){
 					$date;
 					while($row=mysql_fetch_assoc($sql)){
 						$date=$row['date'];
@@ -85,7 +87,7 @@
 					}
 				}else{
 					//le nom de la chasse au trésor indiqué par l'utilisateur n'existe pas
-					$output=array("retour"=>htmlentities("Le nom de la chasse au trésor est déjà utilisé", ENT_QUOTES, 'utf-8'));
+					$output=array("retour"=>htmlentities("Le nom de la chasse au trésor n'existe pas", ENT_QUOTES, 'utf-8'));
 				}
 				print(json_encode($output));
 			}

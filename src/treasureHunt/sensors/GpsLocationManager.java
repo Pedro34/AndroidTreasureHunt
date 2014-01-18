@@ -52,6 +52,7 @@ public class GpsLocationManager implements LocationListener {
 			/*System.out.println("Ma position: "+location.getLatitude()+" "+location.getLongitude()+" La position du trésor: "+ActivityStartingHunt.treasureLocation.getLatitude()
 					+" "+ActivityStartingHunt.treasureLocation.getLongitude());*/
 			float dist = ActivityStartingHunt.treasureLocation.distanceTo(location);
+			System.out.println(location.getLatitude()+" "+location.getLongitude()+" "+ActivityStartingHunt.treasureLocation.getLatitude()+" "+ActivityStartingHunt.treasureLocation.getLongitude());
 			System.out.println("Distance : "+dist);
 			if(dist<=0){
 				Toast.makeText(context,
