@@ -11,19 +11,21 @@ import android.os.Bundle;
 public class OrientationManager extends Activity implements SensorEventListener {
 
 	// Attribut de la classe pour calculer  l'orientation
-	private float[] acceleromterVector;
-	private float[] magneticVector;
-	private float[] resultMatrix;
-	private float[] values;
-	
+	private float[] tabTest=new float[9];
+	private float[] acceleromterVector=new float[3];
+	private float[] magneticVector=new float[3];
+	private float[] resultMatrix=new float [9];
+	private float[] values=new float[3];
+	boolean ready = false;
+
 	private SensorManager sensorManager;
 	protected Sensor magnetic;
 	protected Sensor accelerometer;
-	
+
 	private static float azimuth;
 	private static float pitch;
 	private static float roll;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -41,7 +43,7 @@ public class OrientationManager extends Activity implements SensorEventListener 
 			System.out.println("Le capteur accéléromètre n'est pas pris en charge par le téléphone");
 		}
 	}
-	
+
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub
@@ -52,21 +54,32 @@ public class OrientationManager extends Activity implements SensorEventListener 
 	public void onSensorChanged(SensorEvent event) {
 		// Mettre à jour la valeur de l'accéléromètre et du champ magnétique
 		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-		    acceleromterVector=event.values;
+			acceleromterVector=event.values;
+			if (acceleromterVector[0] != 0){
+				ready = true;
+			}
 		} else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-		    magneticVector=event.values;
+			magneticVector=event.values;
+			if (magneticVector[2] != 0){
+				ready = true;
+			}
 		}
-		// Demander au sensorManager la matric de Rotation (resultMatric)
-		SensorManager.getRotationMatrix(resultMatrix, null, acceleromterVector, magneticVector);
-		// Demander au SensorManager le vecteur d'orientation associé (values)
-		SensorManager.getOrientation(resultMatrix, values);
-		// l'azimuth
-		setAzimuth((float) Math.toDegrees(values[0]));
-		// le pitch
-		setPitch((float) Math.toDegrees(values[1]));
-		// le roll
-		setRoll((float) Math.toDegrees(values[2]));
-		
+
+		if (!ready){
+			return ;
+		}
+		// Demander au sensorManager la matrice de Rotation (resultMatric)
+		if(SensorManager.getRotationMatrix(resultMatrix, tabTest, acceleromterVector, magneticVector)){
+			// Demander au SensorManager le vecteur d'orientation associé (values)
+			SensorManager.getOrientation(resultMatrix, values);
+			// l'azimuth
+			setAzimuth((float) Math.toDegrees(values[0]));
+			// le pitch
+			setPitch((float) Math.toDegrees(values[1]));
+			// le roll
+			setRoll((float) Math.toDegrees(values[2]));
+		}
+
 	}
 
 	public static float getAzimuth() {

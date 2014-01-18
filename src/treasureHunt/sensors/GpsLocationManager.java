@@ -53,7 +53,7 @@ public class GpsLocationManager implements LocationListener {
 					+" "+ActivityStartingHunt.treasureLocation.getLongitude());*/
 			float dist = ActivityStartingHunt.treasureLocation.distanceTo(location);
 			System.out.println("Distance : "+dist);
-			if(dist<=40){
+			if(dist<=0){
 				Toast.makeText(context,
 						String.format("Vous avez trouvé le trésor !"),
 						Toast.LENGTH_LONG).show();
@@ -85,26 +85,43 @@ public class GpsLocationManager implements LocationListener {
 				ActivityStartingHunt.distance.setText(Float.toString(dist)+" m");
 			}
 			
-			Intent intent =new Intent(context,OrientationManager.class);
+			/*Intent intent =new Intent(context,OrientationManager.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			context.startActivity(intent);
+			context.startActivity(intent);*/
 			
-			float azimuth=OrientationManager.getAzimuth();//angle de l'utilisateur par rapport au Nord
+			float azimuth=ActivityStartingHunt.getAzimuth();//angle de l'utilisateur par rapport au Nord
 			float treasureDirection=location.bearingTo(ActivityStartingHunt.treasureLocation);//angle du trésor par rapport au Nord
-			if(treasureDirection<0){
+			/*if(treasureDirection<0){
 				treasureDirection+=360;
 				if (azimuth<=treasureDirection){
 					ActivityStartingHunt.degree.setText(Float.toString(treasureDirection-azimuth)+" °");
 				}else{
 					ActivityStartingHunt.degree.setText(Float.toString(-(azimuth-treasureDirection))+" °");
 				}
-			}else{
+			}else{*/
+			System.out.println(" Angle util / Nord : "+azimuth);
+			System.out.println(" Angle Trésor / Nord : "+treasureDirection);
+			if (azimuth<0){
+				azimuth = 360 + azimuth;
+			}
+			
+			if (treasureDirection<0){
+				treasureDirection = 360 + treasureDirection;
+			}
+			System.out.println("Transformation de l'angle : Angle util / Nord : "+azimuth);
+			System.out.println("Transformation de l'angle : Angle Trésor / Nord : "+treasureDirection);
+			float result;
 				if (azimuth<=treasureDirection){
+					result = treasureDirection-azimuth;
 					ActivityStartingHunt.degree.setText(Float.toString(treasureDirection-azimuth)+" °");
+					System.out.println("Azimuth < Trésor : "+result);
 				}else{
 					ActivityStartingHunt.degree.setText(Float.toString(-(azimuth-treasureDirection))+" °");
+					result = azimuth-treasureDirection;
+					System.out.println("Azimuth > Trésor : "+result);
+
 				}
-			}
+			//}
 			
 		}
 	}

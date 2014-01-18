@@ -29,8 +29,14 @@ import android.util.Log;
 
 
 public class DatabaseExternalManager extends Thread{
-	public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
-	public static final String strURLInput = "http://192.168.1.19/TreasureHunt/inputTreasure.php";
+	// MONTPELLIER
+	/*public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
+	public static final String strURLInput = "http://192.168.1.19/TreasureHunt/inputTreasure.php";*/
+	
+	//Maison
+	public static final String strURL = "http://192.168.1.183/TreasureHunt/treasure.php";
+	public static final String strURLInput = "http://192.168.1.183/TreasureHunt/inputTreasure.php";
+	
 	public int action;
 	public String nom;
 	public Handler hand;
