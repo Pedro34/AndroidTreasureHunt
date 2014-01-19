@@ -146,6 +146,9 @@ public class ActivityManageHunts extends Activity {
 				Toast.LENGTH_LONG).show();
 	}
 	
+	/**
+	 * Permet de supprimer une chasse aux trésors en fonction de son nom.
+	 */
 	private void removeItem(){
 		cursor.moveToPosition(selectedItem);
 		String treasureName=cursor.getString(1);
@@ -156,6 +159,10 @@ public class ActivityManageHunts extends Activity {
 		this.recreate();
 	}
 	
+	/**
+	 * Permet à l'utilisateur de continuer la création d'une chasse aux trésors
+	 * en fonction de son nom.
+	 */
 	private void completeIntentLocal(){
 		cursor.moveToFirst();
 		cursor.moveToPosition(selectedItem);
@@ -167,7 +174,10 @@ public class ActivityManageHunts extends Activity {
 		intentLocal.putExtra("numIndice", Integer.toString(max));
 	}
 	
-	
+	/**
+	 * Permet à l'utilisateur de continuer la participation à une chasse aux trésors
+	 * qu'il avait commencer.
+	 */
 	private void completeIntentImported(){
 		cursor.moveToFirst();
 		cursor.moveToPosition(selectedItem);

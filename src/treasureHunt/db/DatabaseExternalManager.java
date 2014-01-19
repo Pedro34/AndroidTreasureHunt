@@ -23,7 +23,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.util.Log;
 
-
+/**
+ * Classe permettant de communiquer avec l'API REST PHP et ainsi pouvoir 
+ * à la fois interroger la BD externe et pouvoir envoyer des données pour 
+ * l'export.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class DatabaseExternalManager extends Thread{
 	// MONTPELLIER
 	/*public static final String strURL = "http://192.168.1.19/TreasureHunt/treasure.php";
@@ -88,6 +95,11 @@ public class DatabaseExternalManager extends Thread{
 		}
 	}
 
+	/**
+	 * Permet d'envoyer un objet {@link JSONObject} à l'API REST PHP
+	 * qui le parsera par la suite et intègrera les données.
+	 * @param obj un objet {@link JSONObject}
+	 */
 	private void sendDataToServer(JSONObject obj){
 		InputStream is=null;
 		String result="";
@@ -129,6 +141,12 @@ public class DatabaseExternalManager extends Thread{
 		System.out.println(result);
 	}
 
+	/**
+	 * 
+	 * @param apiRequest l'attribut POST à prendre en compte
+	 * @param data les données à interroger
+	 * @return un objet {@link JSONObject} que l'on parse par la suite
+	 */
 	private JSONObject getServerData(String apiRequest,String data){
 		InputStream is=null;
 		String result="";
@@ -195,6 +213,12 @@ public class DatabaseExternalManager extends Thread{
 		return retour;
 	}
 
+	/**
+	 * 
+	 * @param nom le nom de la chasse aux trésors à importer sur le mobile
+	 * @return la chaîne de caractère success en cas de succès. Sinon 
+	 * retour l'erreur associée.
+	 */
 	public String importDataToAndroid(String nom){
 		JSONObject jArray=getServerData("verifyNameAndDateBeforeParticipating", nom);
 		retourImport="";

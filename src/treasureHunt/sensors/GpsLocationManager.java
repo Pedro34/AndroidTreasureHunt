@@ -13,6 +13,14 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+/**
+ * Classe permettant de gérer la localisation grâce au GPS.
+ * Les valeurs de longitude, latitude, degré sont mis à jour
+ * en fonction des besoins et en fonction des activités.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class GpsLocationManager implements LocationListener {
 
 	public Context context;

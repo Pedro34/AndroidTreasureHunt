@@ -1,5 +1,12 @@
 package treasureHunt.model;
 
+/**
+ * Classe permettant de représenter une chasse aux trésors. C'est à dire
+ * le numéro d'indice, l'indice, la longitude et la latitude.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class Hunt {
 
 	private long id;

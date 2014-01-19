@@ -15,6 +15,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 
+/**
+ * Classe permettant de gérer entièrement la BD interne au téléphone.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class DatabaseManager extends SQLiteOpenHelper{
 	private static DatabaseManager instance=null;
 	
@@ -147,6 +153,14 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		return h;
 	}
 	
+	/**
+	 * 
+	 * @param db La base de données à interroger
+	 * @param nomChasse le nom de la chasse aux trésors
+	 * @return le premier numéro d'indice trouvé dans la table Hunt
+	 * en fonction du nom donné en paramètre. S'il n'y a plus aucun 
+	 * indice retourne -1.
+	 */
 	public int retreiveFirstClueToSolve(SQLiteDatabase db,String nomChasse){
 		String[] selectionArgs={nomChasse};
 		Cursor curs=db.rawQuery("SELECT "+HuntEntry.COLUMN_NAME_HUNT_CLUE_NUM+
@@ -251,6 +265,13 @@ public class DatabaseManager extends SQLiteOpenHelper{
 		return count;
 	}
 	
+	/**
+	 * 
+	 * @param db La base de données à interroger
+	 * @param nom Le nom de la chasse aux trésors
+	 * @return un objet {@link JSONObject} qui permettra d'exporter les données
+	 * d'une chasse aux trésors créer par un utilisateur.
+	 */
 	public JSONObject retreiveInformation(SQLiteDatabase db,String nom){
 		String[] selectionArgs={nom};
 		JSONObject jsonTreasure=new JSONObject();

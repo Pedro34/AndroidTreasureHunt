@@ -71,6 +71,10 @@ public class ActivityUtilityCreation extends Activity {
 		return true;
 	}
 
+	/**
+	 * Permet de mettre à jour la latitude et la longitude dans 
+	 * la vue.
+	 */
 	public void currentPosition(){
 		setProgressBarIndeterminateVisibility(true);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, gpsLocationListener );
@@ -90,6 +94,12 @@ public class ActivityUtilityCreation extends Activity {
 		System.out.println("LOL?!");
 	}
 
+	/**
+	 * Permet d'ajouter un trésor au parcours et d'effectuer les vérifications
+	 * usuelles.
+	 * 
+	 * @param v
+	 */
 	public void addTreasure(View v){
 
 		indice=(EditText)findViewById(R.id.clue);
@@ -120,6 +130,12 @@ public class ActivityUtilityCreation extends Activity {
 		}
 	}
 
+	/**
+	 * Permet à l'utilisateur de dire qu'il a fini de créer son parcours.
+	 * L'export des données s'effectue alors.
+	 * 
+	 * @param v
+	 */
 	public void endCourse(View v){
 		SQLiteDatabase db=DatabaseManager.getInstance(getApplicationContext()).getWritableDatabase();
 		//TODO export des données à effectuer

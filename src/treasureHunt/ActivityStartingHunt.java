@@ -29,9 +29,9 @@ import android.widget.Toast;
  *
  */
 public class ActivityStartingHunt extends Activity implements SensorEventListener {
-	
+
 	// Variables de base de la classe ActivityStartingHunt
-	
+
 	public Bundle hunt;
 	public String huntName;
 	public EditText indice;
@@ -44,7 +44,7 @@ public class ActivityStartingHunt extends Activity implements SensorEventListene
 	public LocationManager locationManager;
 	public static Location treasureLocation;
 	public static EditText degree;
-	
+
 	/***************************************************************************************************************/
 	//**************** Variables utilisées pour le gyroscope et l'accéléromètre *************************************
 	// Attribut de la classe pour calculer  l'orientation
@@ -75,7 +75,7 @@ public class ActivityStartingHunt extends Activity implements SensorEventListene
 		huntName = hunt.getString("nomChasse");
 		numIndice=Integer.parseInt(hunt.getString("numIndice"));
 		gpsLocationListener.nomChasse=huntName;
-		
+
 		//System.out.println(huntName+" "+numIndice);
 		treasureLocation = new Location(LOCATION_SERVICE);
 		Toast.makeText(this,
@@ -109,7 +109,10 @@ public class ActivityStartingHunt extends Activity implements SensorEventListene
 		currentPosition();
 		//TODO Mise en place de la BDD ou pas
 	}
-	
+
+	/**
+	 * Permet de mettre à jour la position de l'utilisateur de manière invisible.
+	 */
 	public void currentPosition(){
 		setProgressBarIndeterminateVisibility(true);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, gpsLocationListener );
@@ -133,7 +136,7 @@ public class ActivityStartingHunt extends Activity implements SensorEventListene
 		this.finish();
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub

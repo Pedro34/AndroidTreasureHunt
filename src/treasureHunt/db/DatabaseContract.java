@@ -14,6 +14,10 @@ public class DatabaseContract {
 		
 	}
 	
+	/**
+	 * Classe permettant de représenter la table Treasure de la BD interne
+	 *
+	 */
 	public static abstract class TreasureEntry implements BaseColumns{
 		public static final String TABLE_NAME="treasure";
 		public static final String FULL_ID=TABLE_NAME+"."+_ID;
@@ -35,6 +39,10 @@ public class DatabaseContract {
 		public static final String COLUMN_NAME_TREASURE_MODE="mode";
 	}
 	
+	/**
+	 * Classe permettant de représenter la table Hunt de la BD interne
+	 *
+	 */
 	public static abstract class HuntEntry implements BaseColumns{
 		public static final String TABLE_NAME="hunt";
 		public static final String FULL_ID=TABLE_NAME+"."+_ID;

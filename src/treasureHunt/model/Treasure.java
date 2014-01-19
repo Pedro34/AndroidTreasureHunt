@@ -1,5 +1,12 @@
 package treasureHunt.model;
 
+/**
+ * Classe permettant d'organiser une chasser au trésor avec une date 
+ * d'organisation.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class Treasure {
 
 	private long id;
