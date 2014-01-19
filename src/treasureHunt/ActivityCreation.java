@@ -22,6 +22,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Activité permettant à l'utilisateur de créer une chasse aux trésors.
+ * L'activité vérifira si le nom de la chasse aux trésors n'est pas
+ * déjà présente en local et en externe.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class ActivityCreation extends Activity implements OnClickListener{
 
 	public Button validate_hunt;
@@ -40,7 +48,7 @@ public class ActivityCreation extends Activity implements OnClickListener{
 		{
 			AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 			localBuilder
-			.setMessage("Le wifi est d�sactiv�, mais celui-ci est n�cessaire pour continuer.")
+			.setMessage("Le wifi est désactivé, mais celui-ci est nécessaire pour continuer.")
 			.setCancelable(false)
 			.setNeutralButton("Activer le wifi",
 					new DialogInterface.OnClickListener() {

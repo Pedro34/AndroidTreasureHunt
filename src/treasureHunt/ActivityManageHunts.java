@@ -22,6 +22,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
 
+/**
+ * Activité permettant à l'utilisateur de gérer ses différentes chasses aux trésors.
+ * Tant à la fois en mode importé qu'en mode local (création).
+ * Il pourra dans le mode local continuer la création qu'il avait débuter ou supprimer.
+ * Dans le mode importé, il pourra continuer la chasse aux trésors ou supprimer.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class ActivityManageHunts extends Activity {
 
 	public SimpleCursorAdapter simpleAdapter;

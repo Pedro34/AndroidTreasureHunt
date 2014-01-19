@@ -6,6 +6,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+/**
+ * Activité permettant d'informer l'utilisateur que l'application a
+ * besoin de l'activation du GPS si celui-ci n'est pas activé.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class PermissionGps extends Activity {
 
     protected void onCreate(Bundle paramBundle) {

@@ -3,14 +3,11 @@ package treasureHunt;
 import treasureHunt.db.DatabaseManager;
 import treasureHunt.model.Hunt;
 import treasureHunt.sensors.GpsLocationManager;
-import treasureHunt.sensors.OrientationManager;
 
 import com.example.treasurehunt2.R;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
@@ -24,6 +21,13 @@ import android.view.Menu;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Activité permettant à l'utilisateur de trouver les trésors. Grâce
+ * aux indices et aux directives données sous forme d'angle.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class ActivityStartingHunt extends Activity implements SensorEventListener {
 	
 	// Variables de base de la classe ActivityStartingHunt

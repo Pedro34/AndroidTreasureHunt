@@ -2,7 +2,6 @@ package treasureHunt.db;
 
 import java.util.*;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import treasureHunt.db.DatabaseContract.HuntEntry;

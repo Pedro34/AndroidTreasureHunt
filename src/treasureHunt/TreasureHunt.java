@@ -10,6 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Activité principale de l'application.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class TreasureHunt extends Activity {
 	
 	Button button_create;

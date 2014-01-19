@@ -22,6 +22,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Activité permettant à l'utilisateur de positionner ses trésors
+ * en les combinant avec des indices pour pouvoir par la suite les
+ * trouver.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class ActivityUtilityCreation extends Activity {
 
 	public LocationManager locationManager;

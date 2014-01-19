@@ -2,6 +2,12 @@ package treasureHunt.db;
 
 import android.provider.BaseColumns;
 
+/**
+ * Classe permettant de décrire la Base de données SQLite
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class DatabaseContract {
 
 	public DatabaseContract(){

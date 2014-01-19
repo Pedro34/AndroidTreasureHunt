@@ -11,8 +11,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.sax.StartElementListener;
-import android.view.ViewDebug.FlagToString;
 import android.widget.Toast;
 
 public class GpsLocationManager implements LocationListener {
@@ -54,7 +52,7 @@ public class GpsLocationManager implements LocationListener {
 			float dist = ActivityStartingHunt.treasureLocation.distanceTo(location);
 			System.out.println(location.getLatitude()+" "+location.getLongitude()+" "+ActivityStartingHunt.treasureLocation.getLatitude()+" "+ActivityStartingHunt.treasureLocation.getLongitude());
 			System.out.println("Distance : "+dist);
-			if(dist<=0){
+			if(dist<=40){
 				Toast.makeText(context,
 						String.format("Vous avez trouvé le trésor !"),
 						Toast.LENGTH_LONG).show();

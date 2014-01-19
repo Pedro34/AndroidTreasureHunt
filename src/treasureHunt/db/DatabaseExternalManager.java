@@ -7,14 +7,11 @@ import java.util.ArrayList;
 
 import org.apache.http.*;
 import org.apache.http.client.*;
-import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.StringEntity;
 import org.json.*;
 
 import treasureHunt.ActivityCreation;
@@ -23,9 +20,7 @@ import treasureHunt.model.Hunt;
 import treasureHunt.model.Treasure;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 

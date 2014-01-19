@@ -68,10 +68,6 @@
             android:name="treasureHunt.PermissionGps"
             android:label="@string/title_activity_permission_gps" >
         </activity>
-        <activity
-            android:name="treasureHunt.sensors.OrientationManager"
-            android:label="@string/title_activity_permission_gps" >
-        </activity>
     </application>
 
 </manifest>

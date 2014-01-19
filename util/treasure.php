@@ -83,11 +83,11 @@
 					if ($date==$date_system){
 						$output=$this->importDataToAndroid($_REQUEST['verifyNameAndDateBeforeParticipating']);
 					}else{
-						$output=array("retour"=>htmlentities("La chasse au trésor n'est pas prévue à ce jour", ENT_QUOTES, 'utf-8'));
+						$output=array("retour"=>htmlentities("La chasse au trésor ".$_REQUEST['verifyNameAndDateBeforeParticipating']." n'est pas prévue à ce jour", ENT_QUOTES, 'utf-8'));
 					}
 				}else{
 					//le nom de la chasse au trésor indiqué par l'utilisateur n'existe pas
-					$output=array("retour"=>htmlentities("Le nom de la chasse au trésor n'existe pas", ENT_QUOTES, 'utf-8'));
+					$output=array("retour"=>htmlentities("Le nom de la chasse au trésor ".$_REQUEST['verifyNameAndDateBeforeParticipating']." n'existe pas", ENT_QUOTES, 'utf-8'));
 				}
 				print(json_encode($output));
 			}

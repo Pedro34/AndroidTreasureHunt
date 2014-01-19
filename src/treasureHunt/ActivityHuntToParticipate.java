@@ -13,13 +13,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * Activité permettant à l'utilisateur de participer à une chasse 
+ * aux trésors créé par un autre utilisateur. Il devra 
+ * indiquer le nom de la chasse aux trésors que le créateur aura inséré.
+ * On vérifiera donc si le nom est correct et que la date de participation 
+ * est bien celle du jour.
+ * 
+ * @author Burc Pierre, Duplouy Olivier
+ *
+ */
 public class ActivityHuntToParticipate extends Activity {
-	
+
 	EditText hunt_name;
 	public static Semaphore mut=new Semaphore(0);
 
@@ -36,18 +45,18 @@ public class ActivityHuntToParticipate extends Activity {
 		getMenuInflater().inflate(R.menu.treasure_hunt, menu);
 		return true;
 	}
-	
+
 	public void launch(View v){
 		if (hunt_name.getText().length()!=0){
 			SQLiteDatabase  db=DatabaseManager.getInstance(getApplicationContext()).getReadableDatabase();
 			if(!DatabaseManager.getInstance(getApplicationContext()).treasureNameAlreadyImported(db, hunt_name.getText().toString())){
-			
+
 				DatabaseExternalManager dem = new DatabaseExternalManager();
 				dem.action=1;//correspond à l'import
 				dem.nom=hunt_name.getText().toString();
 				dem.context=getApplicationContext();
 				dem.start();
-				
+
 				try {
 					Thread.sleep(1);
 					mut.acquire();
@@ -57,15 +66,15 @@ public class ActivityHuntToParticipate extends Activity {
 				}
 				String retour = dem.getRetourImport();
 				if(retour.equals("sucess")){
-				String name = hunt_name.getText().toString();
-				Intent intent = new Intent(this, ActivityStartingHunt.class);
-				intent.putExtra("nomChasse",name);
-				intent.putExtra("numIndice", String.valueOf(1));
-				startActivity(intent);
+					String name = hunt_name.getText().toString();
+					Intent intent = new Intent(this, ActivityStartingHunt.class);
+					intent.putExtra("nomChasse",name);
+					intent.putExtra("numIndice", String.valueOf(1));
+					startActivity(intent);
 				}else{
 					AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 					localBuilder
-					.setMessage("Chasse au trésor inexistante ou n'est pas prévue à ce jour.")
+					.setMessage(retour)
 					.setCancelable(false)
 					.setNeutralButton("Ok",
 							new DialogInterface.OnClickListener() {
