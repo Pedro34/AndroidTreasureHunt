@@ -55,12 +55,21 @@
         android:id="@+id/degree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/distance"
         android:layout_below="@+id/distance"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
+        android:layout_marginTop="64dp"
+        android:editable="false"
         android:ems="10"
         android:focusable="false"
-        android:editable="false"
         android:text="Degré..." />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/distanceToTreasure"
+        android:layout_below="@+id/distance"
+        android:layout_marginTop="32dp"
+        android:text="Direction à prendre :" />
 
 </RelativeLayout>

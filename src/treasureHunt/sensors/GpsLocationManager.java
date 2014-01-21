@@ -60,7 +60,7 @@ public class GpsLocationManager implements LocationListener {
 			float dist = ActivityStartingHunt.treasureLocation.distanceTo(location);
 			System.out.println(location.getLatitude()+" "+location.getLongitude()+" "+ActivityStartingHunt.treasureLocation.getLatitude()+" "+ActivityStartingHunt.treasureLocation.getLongitude());
 			System.out.println("Distance : "+dist);
-			if(dist<=40){
+			if(dist<=30){
 				Toast.makeText(context,
 						String.format("Vous avez trouvé le trésor !"),
 						Toast.LENGTH_LONG).show();
