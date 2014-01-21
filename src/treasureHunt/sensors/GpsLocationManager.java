@@ -51,7 +51,6 @@ public class GpsLocationManager implements LocationListener {
 			ActivityUtilityCreation.mTxtViewlat.setText(Double.toString(location.getLatitude()));
 			ActivityUtilityCreation.mTxtViewlong.setText(Double.toString(location.getLongitude()));
 		}
-		//Oui c'est moche et alors!!!!
 		if(ActivityStartingHunt.distance != null){
 			ActivityStartingHunt.latitude=location.getLatitude();
 			ActivityStartingHunt.longitude=location.getLongitude();
